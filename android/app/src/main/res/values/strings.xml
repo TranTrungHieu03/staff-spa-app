@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Solace Spa</string>
+    <string name="facebook_app_id">1917460708778330</string>
+    <string name="fb_login_protocol_scheme">fb1917460708778330</string>
+    <string name="facebook_client_token">9cbad0233a6262d80c90f1ee003a68bc</string>
+
+
+</resources>

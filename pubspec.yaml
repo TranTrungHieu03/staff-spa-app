@@ -1,0 +1,123 @@
+name: spa_mobile
+description: "A spa center"
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.3
+
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  #icon
+  iconsax: ^0.0.8
+  iconsax_flutter: ^1.0.0
+  cupertino_icons: ^1.0.8
+  #Utility packages
+  intl: ^0.19.0
+  logger: ^2.0.1
+  url_launcher: ^6.1.12
+  cached_network_image: ^3.4.0
+#  flutter_native_splash: 2.2.16
+  smooth_page_indicator: ^1.1.0
+  lottie: ^2.7.0
+  #bloc for state management
+  flutter_bloc: ^8.1.6
+  bloc: ^8.1.4
+  #functional programming thing
+  dartz: ^0.10.1
+  equatable: ^2.0.5
+  #service locator
+  get_it: ^8.0.2
+  #remote api
+  internet_connection_checker_plus: ^2.5.2
+  dio: ^5.7.0
+  #
+  freezed: ^2.5.7
+  freezed_annotation: ^2.4.4
+  json_annotation: ^4.9.0
+  l10n_flutter: ^1.0.0
+  meta: ^1.8.0
+  #font
+  google_fonts: ^6.2.1
+  #loading
+  shimmer: ^3.0.0
+  #storage:
+  shared_preferences: ^2.3.3
+  path_provider: ^2.1.5
+  provider: ^6.1.2
+  #device:
+  device_info_plus: ^10.0.0
+
+  carousel_slider: ^5.0.0
+  readmore: ^2.2.0
+  flutter_rating_bar: ^4.0.1
+
+  #firebase:
+  firebase_core: ^3.2.0
+  firebase_auth: ^5.1.2
+  google_sign_in: ^6.2.1
+  flutter_facebook_auth: ^7.1.1
+  #ai
+  google_generative_ai: ^0.4.6
+  flutter_markdown: ^0.7.4+3
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+
+  #feedback
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+#  build_runner: ^2.4.13
+#  json_serializable: ^6.8.0
+
+
+flutter:
+  generate: true
+  uses-material-design: true
+
+  #  Local assets:
+  assets:
+    - assets/logos/
+    - assets/fonts/
+    - assets/animations/
+    - assets/images/
+
+  fonts:
+    - family: IBMPlexSans
+      fonts:
+        - asset: assets/fonts/IBMPlexSans-Light.ttf
+          weight: 300
+        - asset: assets/fonts/IBMPlexSans-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/IBMPlexSans-Italic.ttf
+          style: italic
+        - asset: assets/fonts/IBMPlexSans-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/IBMPlexSans-MediumItalic.ttf
+          weight: 500
+          style: italic
+        - asset: assets/fonts/IBMPlexSans-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/IBMPlexSans-SemiBoldItalic.ttf
+          weight: 600
+          style: italic
+        - asset: assets/fonts/IBMPlexSans-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/IBMPlexSans-BoldItalic.ttf
+          weight: 700
+          style: italic
+
+l10n:
+  arb-dir: lib/l10n
+  template-arb-file: app_en.arb
+  output-localization-file: app_localizations.dart
+
+
