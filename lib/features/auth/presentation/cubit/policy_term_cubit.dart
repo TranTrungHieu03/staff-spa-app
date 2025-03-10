@@ -22,8 +22,7 @@ class PolicyTermCubit extends Cubit<PolicyTermState> {
   // Kiểm tra hợp lệ
   void validatePolicyTerm() {
     final currentState = state;
-    if (currentState is PolicyTermToggled ||
-        currentState is PolicyTermInitial) {
+    if (currentState is PolicyTermToggled || currentState is PolicyTermInitial) {
       final isAccept = (currentState as dynamic).isAccept;
 
       if (!isAccept) {

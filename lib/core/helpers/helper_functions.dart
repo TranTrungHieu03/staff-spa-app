@@ -26,8 +26,7 @@ class THelperFunctions {
   }
 
   static void showSnackBar(String message, BuildContext context) {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(message)));
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
   }
 
   static void showAlert(String title, String message, BuildContext context) {
@@ -38,9 +37,7 @@ class THelperFunctions {
             title: Text(title),
             content: Text(message),
             actions: [
-              TextButton(
-                  onPressed: () => Navigator.of(context).pop,
-                  child: const Text('OK')),
+              TextButton(onPressed: () => Navigator.of(context).pop, child: const Text('OK')),
             ],
           );
         });
@@ -85,10 +82,22 @@ class THelperFunctions {
   static List<Widget> wrapWidgets(List<Widget> widgets, int rowSize) {
     final wrappedList = <Widget>[];
     for (var i = 0; i < widgets.length; i += rowSize) {
-      final rowChildren = widgets.sublist(
-          i, i + rowSize > widgets.length ? widgets.length : i + rowSize);
+      final rowChildren = widgets.sublist(i, i + rowSize > widgets.length ? widgets.length : i + rowSize);
       wrappedList.add(Row(children: rowChildren));
     }
     return wrappedList;
+  }
+
+  static String getFirstLetterOfLastName(String fullName) {
+    List<String> parts = fullName.trim().split(' ');
+    if (parts.isNotEmpty) {
+      return parts.last[0].toUpperCase();
+    }
+    return "";
+  }
+
+  static String getLastName(String fullName) {
+    List<String> nameParts = fullName.trim().split(" ");
+    return nameParts.isNotEmpty ? nameParts.last.toLowerCase() : "";
   }
 }

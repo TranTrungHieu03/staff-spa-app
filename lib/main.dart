@@ -1,28 +1,27 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:spa_mobile/core/common/cubit/user/app_user_cubit.dart';
-import 'package:spa_mobile/core/provider/language_provider.dart';
-import 'package:spa_mobile/core/themes/theme.dart';
-import 'package:spa_mobile/core/utils/constants/exports_navigators.dart';
-import 'package:spa_mobile/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:spa_mobile/features/auth/presentation/screens/on_boarding_screen.dart';
-import 'package:spa_mobile/features/home/presentation/blocs/navigation_bloc.dart';
-import 'package:spa_mobile/features/home/presentation/screens/chat_ai_screen.dart';
-import 'package:spa_mobile/firebase_options.dart';
-import 'package:spa_mobile/init_dependencies.dart';
+import 'package:staff_app/core/common/cubit/user/app_user_cubit.dart';
+import 'package:staff_app/core/common/widgets/loader.dart';
+import 'package:staff_app/core/local_storage/local_storage.dart';
+import 'package:staff_app/core/provider/language_provider.dart';
+import 'package:staff_app/core/themes/theme.dart';
+import 'package:staff_app/core/utils/constants/exports_navigators.dart';
+import 'package:staff_app/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:staff_app/features/auth/presentation/screens/on_boarding_screen.dart';
+import 'package:staff_app/features/home/presentation/bloc/navigator/navigation_bloc.dart';
+import 'package:staff_app/init_dependencies.dart';
+import 'package:timezone/data/latest.dart' as tz;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Initialize dependencies and Firebase
   await initDependencies();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  // await NotificationService.init();
+  tz.initializeTimeZones();
   // Initialize LanguageProvider
   final languageProvider = LanguageProvider();
   await languageProvider.loadLanguage();
@@ -56,7 +55,8 @@ class _MyAppState extends State<MyApp> {
     return Consumer<LanguageProvider>(
       builder: (context, languageProvider, child) {
         return MaterialApp(
-          title: "SPA",
+          key: ValueKey(languageProvider.locale),
+          title: "Solace Spa",
           themeMode: ThemeMode.light,
           theme: TAppTheme.lightTheme,
           darkTheme: TAppTheme.darkTheme,
@@ -69,17 +69,30 @@ class _MyAppState extends State<MyApp> {
           ],
           supportedLocales: const [Locale('en'), Locale('vi')],
           locale: languageProvider.locale,
-          // localeResolutionCallback: (locale, supportedLocales) {
-          //   return supportedLocales.firstWhere(
-          //     (supportedLocale) =>
-          //         supportedLocale.languageCode == locale?.languageCode,
-          //     orElse: () => const Locale('en'),
-          //   );
-          // },
-          home: const OnBoardingScreen(),
-
+          home: FutureBuilder(
+              future: _getStartScreen(context),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const TLoader();
+                } else {
+                  return const OnBoardingScreen();
+                }
+              }),
         );
       },
     );
+  }
+
+  Future<void> _getStartScreen(BuildContext context) async {
+    final isLogin = await LocalStorage.getData(LocalStorageKey.isLogin);
+    final isStaff = await LocalStorage.getData(LocalStorageKey.isStaff);
+    final isCompletedOnBoarding = await LocalStorage.getData(LocalStorageKey.isCompletedOnBoarding);
+    if (isLogin == 'true' && isStaff == "true") {
+      goHome();
+    } else if (isCompletedOnBoarding == 'true') {
+      goLoginNotBack();
+    } else {
+      goOnboarding();
+    }
   }
 }

@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:spa_mobile/core/helpers/helper_functions.dart';
-import 'package:spa_mobile/core/utils/constants/colors.dart';
-import 'package:spa_mobile/core/utils/device/device_utility.dart';
+import 'package:staff_app/core/helpers/helper_functions.dart';
+import 'package:staff_app/core/utils/constants/colors.dart';
+import 'package:staff_app/core/utils/device/device_utility.dart';
 
 class TAppbar extends StatelessWidget implements PreferredSizeWidget {
-  const TAppbar(
-      {super.key,
-      this.title,
-      this.showBackArrow = false,
-      this.leadingIcon,
-      this.actions,
-      this.leadingOnPressed});
+  const TAppbar({super.key, this.title, this.showBackArrow = false, this.leadingIcon, this.actions, this.leadingOnPressed});
 
   final Widget? title;
   final bool showBackArrow;
@@ -25,12 +19,10 @@ class TAppbar extends StatelessWidget implements PreferredSizeWidget {
       automaticallyImplyLeading: false,
       leading: showBackArrow
           ? IconButton(
-              onPressed: () => Navigator.pop(context),
+              onPressed: () => leadingOnPressed ?? Navigator.pop(context),
               icon: Icon(
                 Iconsax.arrow_left,
-                color: THelperFunctions.isDarkMode(context)
-                    ? Colors.white
-                    : TColors.black,
+                color: THelperFunctions.isDarkMode(context) ? Colors.white : TColors.black,
               ))
           : leadingIcon != null
               ? IconButton(onPressed: leadingOnPressed, icon: Icon(leadingIcon))

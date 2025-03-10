@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:spa_mobile/core/common/widgets/rounded_icon.dart';
-import 'package:spa_mobile/core/utils/constants/colors.dart';
+import 'package:staff_app/core/common/widgets/rounded_icon.dart';
+import 'package:staff_app/core/utils/constants/colors.dart';
 
 class TNotificationIcon extends StatelessWidget {
-  const TNotificationIcon(
-      {super.key, required this.onPressed, required this.iconColor});
+  const TNotificationIcon({super.key, required this.onPressed, required this.iconColor});
 
   final Color iconColor;
   final VoidCallback onPressed;
@@ -14,26 +13,22 @@ class TNotificationIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(children: [
       TRoundedIcon(
-        icon: Iconsax.notification,
+        icon: Iconsax.alarm,
         color: iconColor,
         size: 30,
         onPressed: onPressed,
-        backgroundColor: TColors.white.withOpacity(0.25),
+        backgroundColor: TColors.primaryBackground,
       ),
       Positioned(
-        right: 7,
+        right: 0,
         child: Container(
-          width: 18,
-          height: 18,
-          decoration: BoxDecoration(
-              color: TColors.primary, borderRadius: BorderRadius.circular(100)),
+          width: 25,
+          height: 25,
+          decoration: BoxDecoration(color: TColors.primaryBackground, borderRadius: BorderRadius.circular(100)),
           child: Center(
             child: Text(
-              '2',
-              style: Theme.of(context)
-                  .textTheme
-                  .labelLarge!
-                  .apply(color: TColors.white, fontSizeFactor: 0.8),
+              '5+',
+              style: Theme.of(context).textTheme.labelLarge!.apply(color: TColors.primary, fontSizeFactor: 0.8),
             ),
           ),
         ),

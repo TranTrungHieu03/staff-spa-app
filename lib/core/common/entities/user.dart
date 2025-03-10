@@ -13,9 +13,11 @@ class User extends Equatable {
   final String? phoneNumber;
   final String? status;
   final int? bonusPoint;
+  final int? roleID;
   final String? typeLogin;
 
   const User({
+    required this.roleID,
     required this.userId,
     required this.userName,
     this.fullName,

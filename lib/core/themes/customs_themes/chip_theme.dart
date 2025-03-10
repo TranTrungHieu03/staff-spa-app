@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:spa_mobile/core/utils/constants/colors.dart';
+import 'package:staff_app/core/utils/constants/colors.dart';
 
 class TChipTheme {
   TChipTheme._();

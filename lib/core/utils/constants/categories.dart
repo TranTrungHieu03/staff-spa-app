@@ -1,4 +1,3 @@
-
 final List<Map<String, String>> categories = [
   {
     "name": "All",
@@ -21,5 +20,4 @@ final List<Map<String, String>> categories = [
   {
     "name": "Makeup tools",
   },
-
 ];

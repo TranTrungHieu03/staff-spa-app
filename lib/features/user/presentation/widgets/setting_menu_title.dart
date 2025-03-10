@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:spa_mobile/core/utils/constants/colors.dart';
+import 'package:staff_app/core/utils/constants/colors.dart';
 
 class TSettingsMenuTile extends StatelessWidget {
-  const TSettingsMenuTile(
-      {super.key,
-      required this.icon,
-      required this.title,
-      this.trailing,
-      this.onTap});
+  const TSettingsMenuTile({super.key, required this.icon, required this.title, this.trailing, this.onTap});
 
   final IconData icon;
   final String title;

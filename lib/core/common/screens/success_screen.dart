@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:lottie/lottie.dart';
-import 'package:spa_mobile/core/common/styles/spacing_styles.dart';
-import 'package:spa_mobile/core/utils/constants/sizes.dart';
+import 'package:staff_app/core/common/styles/spacing_styles.dart';
+import 'package:staff_app/core/utils/constants/sizes.dart';
 
 class SuccessScreen extends StatelessWidget {
-  const SuccessScreen(
-      {super.key,
-      required this.image,
-      required this.title,
-      required this.subTitle,
-      required this.onPressed});
+  const SuccessScreen({super.key, required this.image, required this.title, required this.subTitle, required this.onPressed});
 
   final String image, title, subTitle;
   final VoidCallback onPressed;

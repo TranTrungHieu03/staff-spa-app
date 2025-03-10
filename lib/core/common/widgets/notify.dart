@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:spa_mobile/core/helpers/helper_functions.dart';
-import 'package:spa_mobile/core/utils/constants/colors.dart';
+import 'package:staff_app/core/helpers/helper_functions.dart';
+import 'package:staff_app/core/utils/constants/colors.dart';
 
 class TNotify {
   static hideSnackBar(BuildContext context) {
@@ -18,9 +18,7 @@ class TNotify {
         margin: const EdgeInsets.symmetric(horizontal: 30),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
-            color: THelperFunctions.isDarkMode(context)
-                ? TColors.darkerGrey.withOpacity(0.9)
-                : TColors.grey.withOpacity(0.9)),
+            color: THelperFunctions.isDarkMode(context) ? TColors.darkerGrey.withOpacity(0.9) : TColors.grey.withOpacity(0.9)),
         child: Center(
           child: Text(
             message,

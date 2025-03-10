@@ -1,14 +1,21 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
-import 'package:spa_mobile/core/common/widgets/appbar.dart';
-import 'package:spa_mobile/core/common/widgets/section_heading.dart';
-import 'package:spa_mobile/core/provider/language_provider.dart';
-import 'package:spa_mobile/core/utils/constants/exports_navigators.dart';
-import 'package:spa_mobile/core/utils/constants/sizes.dart';
-import 'package:spa_mobile/features/user/presentation/widgets/setting_menu_title.dart';
-import 'package:spa_mobile/features/user/presentation/widgets/user_profile.dart';
+import 'package:staff_app/core/common/widgets/appbar.dart';
+import 'package:staff_app/core/common/widgets/section_heading.dart';
+import 'package:staff_app/core/local_storage/local_storage.dart';
+import 'package:staff_app/core/provider/language_provider.dart';
+import 'package:staff_app/core/utils/constants/colors.dart';
+import 'package:staff_app/core/utils/constants/exports_navigators.dart';
+import 'package:staff_app/core/utils/constants/sizes.dart';
+import 'package:staff_app/features/auth/data/models/user_model.dart';
+import 'package:staff_app/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:staff_app/features/user/presentation/widgets/setting_menu_title.dart';
+import 'package:staff_app/features/user/presentation/widgets/user_profile.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});
@@ -18,9 +25,40 @@ class SettingScreen extends StatefulWidget {
 }
 
 class _SettingScreenState extends State<SettingScreen> {
+  UserModel? user;
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _getUser();
+  }
+
+  void _getUser() async {
+    final userJson = await LocalStorage.getData(LocalStorageKey.userKey);
+    if (jsonDecode(userJson) != null) {
+      setState(() {
+        user = UserModel.fromJson(jsonDecode(userJson));
+        isLoading = false;
+      });
+    } else {
+      setState(() {
+        isLoading = false;
+      });
+      goLoginNotBack();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final languageProvider = Provider.of<LanguageProvider>(context);
+    final code = languageProvider.getCurrentLanguageCode();
+    String languageChange;
+    if (code == 'vi') {
+      languageChange = 'en';
+    } else {
+      languageChange = 'vi';
+    }
     return Scaffold(
       appBar: TAppbar(
         title: Text(
@@ -32,6 +70,7 @@ class _SettingScreenState extends State<SettingScreen> {
         child: Column(
           children: [
             TUserProfileTile(
+              userData: user,
               onPressed: () => goProfile(),
             ),
             const SizedBox(
@@ -53,20 +92,19 @@ class _SettingScreenState extends State<SettingScreen> {
                     icon: Iconsax.award,
                     title: AppLocalizations.of(context)!.rewards,
                     onTap: () {},
-                    trailing: Icon(Icons.arrow_forward_ios, size: 16),
+                    trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                   ),
                   TSettingsMenuTile(
                     icon: Icons.language_outlined,
                     title: AppLocalizations.of(context)!.language,
                     onTap: () {
-                      _changeLanguagePopup(context);
+                      _changeLanguagePopup(context, languageChange);
                     },
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          languageProvider.getLanguageName(
-                              languageProvider.locale.languageCode),
+                          languageProvider.getLanguageName(languageProvider.locale.languageCode),
                           style: Theme.of(context).textTheme.bodySmall,
                         ),
                         const SizedBox(
@@ -79,14 +117,14 @@ class _SettingScreenState extends State<SettingScreen> {
                   TSettingsMenuTile(
                     icon: Iconsax.receipt,
                     title: AppLocalizations.of(context)!.order_name,
-                    onTap: () => goHistory(),
-                    trailing: Icon(Icons.arrow_forward_ios, size: 16),
+                    onTap: () {},
+                    trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                   ),
                   TSettingsMenuTile(
                     icon: Iconsax.bookmark,
                     title: AppLocalizations.of(context)!.appointment,
-                    onTap: () => goServiceHistory(),
-                    trailing: Icon(Icons.arrow_forward_ios, size: 16),
+                    onTap: () {},
+                    trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                   ),
                   const Divider(),
                   TSettingsMenuTile(
@@ -94,11 +132,25 @@ class _SettingScreenState extends State<SettingScreen> {
                     title: AppLocalizations.of(context)!.delete_account,
                     onTap: () => _deleteAccountWarningPopup(context),
                   ),
-                  TSettingsMenuTile(
-                    icon: Iconsax.logout,
-                    title: AppLocalizations.of(context)!.logout,
-                    onTap: () {
-                      goLoginNotBack();
+                  BlocConsumer<AuthBloc, AuthState>(
+                    listener: (context, state) {
+                      if (state is AuthClear) {
+                        goLoginNotBack();
+                      }
+                    },
+                    builder: (context, state) {
+                      return ListTile(
+                        leading: const Icon(
+                          Iconsax.logout,
+                          size: 24,
+                          color: TColors.black,
+                        ),
+                        title: Text(AppLocalizations.of(context)!.logout, style: Theme.of(context).textTheme.titleSmall),
+                        trailing: null,
+                        onTap: () {
+                          context.read<AuthBloc>().add(LogoutEvent());
+                        },
+                      );
                     },
                   ),
                   const SizedBox(
@@ -118,6 +170,7 @@ class _SettingScreenState extends State<SettingScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          backgroundColor: Colors.white,
           title: const Text('Delete Account'),
           content: const Text(
             'Are you sure you want to delete your account permanently? '
@@ -149,25 +202,25 @@ class _SettingScreenState extends State<SettingScreen> {
     );
   }
 
-  void _changeLanguagePopup(BuildContext context) {
+  void _changeLanguagePopup(BuildContext context, String languageChange) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          backgroundColor: Colors.white,
           title: const Text('Change Language'),
-          content:
-              const Text('Are you sure you want to change to Vietnamese? '),
+          content: Text(
+              'Are you sure you want to change to ${Provider.of<LanguageProvider>(context, listen: false).getLanguageName(languageChange)}? '),
           actions: [
             TextButton(
               onPressed: () async {
-                await Provider.of<LanguageProvider>(context, listen: false)
-                    .changeLanguage(Locale('vi'));
                 Navigator.of(context).pop();
               },
               child: const Text('Cancel'),
             ),
             ElevatedButton(
               onPressed: () async {
+                await Provider.of<LanguageProvider>(context, listen: false).changeLanguage(Locale(languageChange));
                 Navigator.of(context).pop();
               },
               style: ElevatedButton.styleFrom(

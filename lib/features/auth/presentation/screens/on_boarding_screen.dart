@@ -3,13 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:spa_mobile/core/common/widgets/appbar.dart';
-import 'package:spa_mobile/core/helpers/helper_functions.dart';
-import 'package:spa_mobile/core/utils/constants/colors.dart';
-import 'package:spa_mobile/core/utils/constants/exports_navigators.dart';
-import 'package:spa_mobile/core/utils/constants/images.dart';
-import 'package:spa_mobile/core/utils/constants/sizes.dart';
-import 'package:spa_mobile/features/auth/presentation/bloc/on_boarding_bloc.dart';
+import 'package:staff_app/core/common/widgets/appbar.dart';
+import 'package:staff_app/core/helpers/helper_functions.dart';
+import 'package:staff_app/core/utils/constants/colors.dart';
+import 'package:staff_app/core/utils/constants/exports_navigators.dart';
+import 'package:staff_app/core/utils/constants/images.dart';
+import 'package:staff_app/core/utils/constants/sizes.dart';
+import 'package:staff_app/features/auth/presentation/bloc/on_boarding_bloc.dart';
+import 'package:staff_app/features/auth/presentation/widgets/language_dropdown.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({super.key});
@@ -44,9 +45,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   return PageView(
                     controller: _pageController,
                     onPageChanged: (index) {
-                      context
-                          .read<OnboardingBloc>()
-                          .add(OnPageChangedEvent(index));
+                      context.read<OnboardingBloc>().add(OnPageChangedEvent(index));
                     },
                     children: [
                       OnBoardingPage(
@@ -68,9 +67,46 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   );
                 },
               ),
-              const OnboardingSkip(),
               const OnBoardingDotNavigation(),
-              OnBoardingNextBtn(pageController: _pageController),
+              const Positioned(
+                right: TSizes.md,
+                left: 0,
+                top: 0,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    LanguageDropdown(),
+                  ],
+                ),
+              ),
+              Positioned(
+                bottom: 0,
+                child: Container(
+                  padding: const EdgeInsets.all(TSizes.sm),
+                  width: THelperFunctions.screenWidth(context),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                              onPressed: () => goSignUp(),
+                              child: Text(
+                                AppLocalizations.of(context)!.get_started.toUpperCase(),
+                              ))),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          TextButton(
+                              onPressed: () => goLoginNotBack(),
+                              child: Text(
+                                AppLocalizations.of(context)!.has_account,
+                              ))
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              )
             ],
           ),
         ),
@@ -80,11 +116,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 }
 
 class OnBoardingPage extends StatelessWidget {
-  const OnBoardingPage(
-      {super.key,
-      required this.title,
-      required this.image,
-      required this.subTitle});
+  const OnBoardingPage({super.key, required this.title, required this.image, required this.subTitle});
 
   final String image, title, subTitle;
 
@@ -96,7 +128,7 @@ class OnBoardingPage extends StatelessWidget {
         children: [
           Image(
               width: THelperFunctions.screenWidth(context) * 0.8,
-              height: THelperFunctions.screenHeight(context) * 0.6,
+              height: THelperFunctions.screenHeight(context) * 0.5,
               image: AssetImage(image)),
           Text(
             title,
@@ -128,11 +160,11 @@ class OnBoardingNextBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      right: 16,
-      bottom: 32,
+      right: TSizes.sm,
+      bottom: TSizes.xl * 5,
       child: ElevatedButton(
         onPressed: () => context.read<OnboardingBloc>().add(NextPageEvent()),
-        child: Icon(Iconsax.arrow_right_3),
+        child: const Icon(Iconsax.arrow_right_3),
       ),
     );
   }
@@ -153,8 +185,7 @@ class OnboardingSkip extends StatelessWidget {
           top: 0,
           right: 16,
           child: TextButton(
-            onPressed: () =>
-                context.read<OnboardingBloc>().add(SkipPageEvent()),
+            onPressed: () => context.read<OnboardingBloc>().add(SkipPageEvent()),
             child: Text(AppLocalizations.of(context)!.skip),
           ),
         ));
@@ -168,19 +199,22 @@ class OnBoardingDotNavigation extends StatelessWidget {
   Widget build(BuildContext context) {
     final dark = THelperFunctions.isDarkMode(context);
     return Positioned(
-      bottom: 80,
-      left: 16,
+      bottom: TSizes.xl * 5,
+      left: 0,
+      right: 0,
       child: BlocBuilder<OnboardingBloc, OnboardingState>(
         builder: (context, state) {
-          final currentIndex =
-              state is OnboardingPageChanged ? state.pageIndex : 0;
+          final currentIndex = state is OnboardingPageChanged ? state.pageIndex : 0;
 
-          return SmoothPageIndicator(
-            controller: PageController(initialPage: currentIndex),
-            count: 3,
-            effect: ExpandingDotsEffect(
-                activeDotColor: !dark ? TColors.dark : TColors.light,
-                dotHeight: 6),
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SmoothPageIndicator(
+                controller: PageController(initialPage: currentIndex),
+                count: 3,
+                effect: ExpandingDotsEffect(activeDotColor: !dark ? TColors.dark : TColors.light, dotHeight: 6),
+              ),
+            ],
           );
         },
       ),

@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
-import 'package:spa_mobile/core/errors/failure.dart';
-import 'package:spa_mobile/core/usecase/usecase.dart';
-import 'package:spa_mobile/features/auth/domain/repository/auth_repository.dart';
+import 'package:staff_app/core/errors/failure.dart';
+import 'package:staff_app/core/usecase/usecase.dart';
+import 'package:staff_app/features/auth/domain/repository/auth_repository.dart';
 
 class ForgetPassword implements UseCase<Either, ForgetPasswordParams> {
   final AuthRepository _authRepository;

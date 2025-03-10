@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:spa_mobile/core/common/styles/spacing_styles.dart';
-import 'package:spa_mobile/core/common/widgets/loader.dart';
-import 'package:spa_mobile/core/common/widgets/show_snackbar.dart';
-import 'package:spa_mobile/core/utils/constants/colors.dart';
-import 'package:spa_mobile/core/utils/constants/exports_navigators.dart';
-import 'package:spa_mobile/core/utils/constants/sizes.dart';
-import 'package:spa_mobile/core/utils/validators/validation.dart';
-import 'package:spa_mobile/features/auth/domain/usecases/forget_password.dart';
-import 'package:spa_mobile/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:staff_app/core/common/styles/spacing_styles.dart';
+import 'package:staff_app/core/common/widgets/loader.dart';
+import 'package:staff_app/core/common/widgets/show_snackbar.dart';
+import 'package:staff_app/core/utils/constants/colors.dart';
+import 'package:staff_app/core/utils/constants/exports_navigators.dart';
+import 'package:staff_app/core/utils/constants/sizes.dart';
+import 'package:staff_app/core/utils/validators/validation.dart';
+import 'package:staff_app/features/auth/domain/usecases/forget_password.dart';
+import 'package:staff_app/features/auth/presentation/bloc/auth_bloc.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -45,10 +45,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     children: [
                       Text(
                         AppLocalizations.of(context)!.forgotPasswordTitle,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineMedium!
-                            .apply(color: TColors.primary),
+                        style: Theme.of(context).textTheme.headlineMedium!.apply(color: TColors.primary),
                       ),
                       const SizedBox(
                         height: TSizes.sm,
@@ -80,11 +77,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         child: ElevatedButton(
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
-                                context.read<AuthBloc>().add(
-                                    ForgetPasswordEvent(
-                                        params: ForgetPasswordParams(
-                                            email: _emailController.text
-                                                .toString())));
+                                context
+                                    .read<AuthBloc>()
+                                    .add(ForgetPasswordEvent(params: ForgetPasswordParams(email: _emailController.text.toString())));
                               }
                             },
                             child: Text(AppLocalizations.of(context)!.send)),

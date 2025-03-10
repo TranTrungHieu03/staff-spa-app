@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:spa_mobile/core/common/entities/user.dart';
+import 'package:staff_app/core/common/entities/user.dart';
 
 part 'app_user_state.dart';
 

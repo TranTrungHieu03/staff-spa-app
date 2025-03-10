@@ -11,8 +11,7 @@ class TValidator {
       return 'Email is required';
     }
 
-    final emailRegExp = RegExp(
-        r'^[a-zA-Z0-9]+([._%+-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9-]+\.[a-zA-Z]{2,4}$');
+    final emailRegExp = RegExp(r'^[a-zA-Z0-9]+([._%+-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9-]+\.[a-zA-Z]{2,4}$');
     if (!emailRegExp.hasMatch(value)) {
       return 'Invalid email address';
     }
@@ -54,6 +53,7 @@ class TValidator {
 
     return null;
   }
+
   static String? validateDate(String? value) {
     if (value == null || value.isEmpty) {
       return 'Date is required';
@@ -76,6 +76,14 @@ class TValidator {
       }
     } catch (e) {
       return 'Invalid date';
+    }
+
+    return null;
+  }
+
+  static String? validateNumber(int value) {
+    if (value < 0) {
+      return 'Number must be greater than 0';
     }
 
     return null;

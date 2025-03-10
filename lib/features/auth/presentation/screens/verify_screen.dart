@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:spa_mobile/core/common/widgets/loader.dart';
-import 'package:spa_mobile/core/common/widgets/otp_field.dart';
-import 'package:spa_mobile/core/common/widgets/show_snackbar.dart';
-import 'package:spa_mobile/core/utils/constants/exports_navigators.dart';
-import 'package:spa_mobile/core/utils/constants/images.dart';
-import 'package:spa_mobile/core/utils/constants/sizes.dart';
-import 'package:spa_mobile/features/auth/domain/usecases/verify_otp.dart';
-import 'package:spa_mobile/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:staff_app/core/common/widgets/loader.dart';
+import 'package:staff_app/core/common/widgets/otp_field.dart';
+import 'package:staff_app/core/common/widgets/show_snackbar.dart';
+import 'package:staff_app/core/utils/constants/exports_navigators.dart';
+import 'package:staff_app/core/utils/constants/images.dart';
+import 'package:staff_app/core/utils/constants/sizes.dart';
+import 'package:staff_app/features/auth/domain/usecases/verify_otp.dart';
+import 'package:staff_app/features/auth/presentation/bloc/auth_bloc.dart';
 
 class VerifyScreen extends StatefulWidget {
   const VerifyScreen({
@@ -33,8 +33,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
   final _pin6Controller = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-  String mergeOTP(String box1, String box2, String box3, String box4,
-      String box5, String box6) {
+  String mergeOTP(String box1, String box2, String box3, String box4, String box5, String box6) {
     return "${box1.toString().trim()}${box2.toString().trim()}${box3.toString().trim()}${box4.toString().trim()}${box5.toString().trim()}${box6.toString().trim()}";
   }
 
@@ -45,8 +44,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
       body: BlocListener<AuthBloc, AuthState>(listener: (context, state) {
         if (state is AuthSuccess) {
           if (widget.statePage == 1) {
-            goSuccess(AppLocalizations.of(context)!.signUpSuccess,
-                AppLocalizations.of(context)!.signUpSuccessSub, () {
+            goSuccess(AppLocalizations.of(context)!.signUpSuccess, AppLocalizations.of(context)!.signUpSuccessSub, () {
               goLoginNotBack();
             }, TImages.success);
           } else {
@@ -121,17 +119,14 @@ class _VerifyScreenState extends State<VerifyScreen> {
                                           _pin5Controller.text.toString(),
                                           _pin6Controller.text.toString()))));
                             } else {
-                              TSnackBar.warningSnackBar(context,
-                                  message: "Enter enough 6 digits to continue");
+                              TSnackBar.warningSnackBar(context, message: "Enter enough 6 digits to continue");
                             }
                           },
                           child: Text(AppLocalizations.of(context)!.verify)),
                     ),
-                    Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                      TextButton(
-                          onPressed: () => {},
-                          child: Text(AppLocalizations.of(context)!.resend))
-                    ])
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [TextButton(onPressed: () => {}, child: Text(AppLocalizations.of(context)!.resend))])
                   ],
                 ),
               ),

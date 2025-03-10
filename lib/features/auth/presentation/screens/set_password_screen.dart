@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:spa_mobile/core/common/styles/spacing_styles.dart';
-import 'package:spa_mobile/core/common/widgets/loader.dart';
-import 'package:spa_mobile/core/common/widgets/show_snackbar.dart';
-import 'package:spa_mobile/core/utils/constants/colors.dart';
-import 'package:spa_mobile/core/utils/constants/exports_navigators.dart';
-import 'package:spa_mobile/core/utils/constants/images.dart';
-import 'package:spa_mobile/core/utils/constants/sizes.dart';
-import 'package:spa_mobile/core/utils/validators/validation.dart';
-import 'package:spa_mobile/features/auth/domain/usecases/reset_password.dart';
-import 'package:spa_mobile/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:spa_mobile/features/auth/presentation/cubit/password_confirm_cubit.dart';
-import 'package:spa_mobile/features/auth/presentation/cubit/password_cubit.dart';
-import 'package:spa_mobile/features/auth/presentation/cubit/password_match_cubit.dart';
+import 'package:staff_app/core/common/styles/spacing_styles.dart';
+import 'package:staff_app/core/common/widgets/loader.dart';
+import 'package:staff_app/core/common/widgets/show_snackbar.dart';
+import 'package:staff_app/core/utils/constants/colors.dart';
+import 'package:staff_app/core/utils/constants/exports_navigators.dart';
+import 'package:staff_app/core/utils/constants/images.dart';
+import 'package:staff_app/core/utils/constants/sizes.dart';
+import 'package:staff_app/core/utils/validators/validation.dart';
+import 'package:staff_app/features/auth/domain/usecases/reset_password.dart';
+import 'package:staff_app/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:staff_app/features/auth/presentation/cubit/password_confirm_cubit.dart';
+import 'package:staff_app/features/auth/presentation/cubit/password_cubit.dart';
+import 'package:staff_app/features/auth/presentation/cubit/password_match_cubit.dart';
 
 class SetPasswordScreen extends StatefulWidget {
   const SetPasswordScreen({super.key, required this.email});
@@ -36,8 +36,7 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
       appBar: AppBar(),
       body: BlocListener<AuthBloc, AuthState>(listener: (context, state) {
         if (state is AuthSuccess) {
-          goSuccess(AppLocalizations.of(context)!.successSetPass,
-              AppLocalizations.of(context)!.successSetPassSub, () {
+          goSuccess(AppLocalizations.of(context)!.successSetPass, AppLocalizations.of(context)!.successSetPassSub, () {
             goLoginNotBack();
           }, TImages.success);
         } else if (state is AuthFailure) {
@@ -53,10 +52,7 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
                 children: [
                   Text(
                     AppLocalizations.of(context)!.setPassword,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headlineMedium!
-                        .apply(color: TColors.primary),
+                    style: Theme.of(context).textTheme.headlineMedium!.apply(color: TColors.primary),
                   ),
                   const SizedBox(
                     height: TSizes.sm,
@@ -86,28 +82,19 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
                               return TextFormField(
                                 controller: _passwordController,
                                 obscureText: isPasswordHidden,
-                                validator: (value) =>
-                                    TValidator.validatePassword(value),
+                                validator: (value) => TValidator.validatePassword(value),
                                 onChanged: (value) {
-                                  context
-                                      .read<PasswordMatchCubit>()
-                                      .updatePassword(value);
+                                  context.read<PasswordMatchCubit>().updatePassword(value);
                                 },
                                 decoration: InputDecoration(
-                                  labelText:
-                                      AppLocalizations.of(context)!.password,
-                                  prefixIcon:
-                                      const Icon(Iconsax.password_check),
+                                  labelText: AppLocalizations.of(context)!.password,
+                                  prefixIcon: const Icon(Iconsax.password_check),
                                   suffixIcon: IconButton(
                                     icon: Icon(
-                                      isPasswordHidden
-                                          ? Iconsax.eye_slash
-                                          : Iconsax.eye,
+                                      isPasswordHidden ? Iconsax.eye_slash : Iconsax.eye,
                                     ),
                                     onPressed: () {
-                                      context
-                                          .read<PasswordCubit>()
-                                          .togglePasswordVisibility();
+                                      context.read<PasswordCubit>().togglePasswordVisibility();
                                     },
                                   ),
                                 ),
@@ -117,8 +104,7 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
                           const SizedBox(
                             height: TSizes.sm,
                           ),
-                          BlocBuilder<PasswordConfirmCubit,
-                              PasswordConfirmState>(
+                          BlocBuilder<PasswordConfirmCubit, PasswordConfirmState>(
                             builder: (context, state) {
                               bool isPasswordHidden = true;
 
@@ -130,29 +116,20 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
 
                               return TextFormField(
                                 controller: _confirmPasswordController,
-                                validator: (value) =>
-                                    TValidator.validatePassword(value),
+                                validator: (value) => TValidator.validatePassword(value),
                                 obscureText: isPasswordHidden,
                                 onChanged: (value) {
-                                  context
-                                      .read<PasswordMatchCubit>()
-                                      .updateConfirmPassword(value);
+                                  context.read<PasswordMatchCubit>().updateConfirmPassword(value);
                                 },
                                 decoration: InputDecoration(
-                                  labelText:
-                                      AppLocalizations.of(context)!.confirmPass,
-                                  prefixIcon:
-                                      const Icon(Iconsax.password_check),
+                                  labelText: AppLocalizations.of(context)!.confirmPass,
+                                  prefixIcon: const Icon(Iconsax.password_check),
                                   suffixIcon: IconButton(
                                     icon: Icon(
-                                      isPasswordHidden
-                                          ? Iconsax.eye_slash
-                                          : Iconsax.eye,
+                                      isPasswordHidden ? Iconsax.eye_slash : Iconsax.eye,
                                     ),
                                     onPressed: () {
-                                      context
-                                          .read<PasswordConfirmCubit>()
-                                          .togglePasswordConfirm();
+                                      context.read<PasswordConfirmCubit>().togglePasswordConfirm();
                                     },
                                   ),
                                 ),
@@ -161,17 +138,13 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
                           ),
                           BlocBuilder<PasswordMatchCubit, PasswordMatchState>(
                             builder: (context, state) {
-                              if (state is PasswordMatchUpdated &&
-                                  !state.isMatch) {
+                              if (state is PasswordMatchUpdated && !state.isMatch) {
                                 return Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Text(
                                       "Passwords do not match!",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelLarge!
-                                          .copyWith(color: Colors.red),
+                                      style: Theme.of(context).textTheme.labelLarge!.copyWith(color: Colors.red),
                                     ),
                                   ],
                                 );
@@ -192,11 +165,8 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
                             context.read<AuthBloc>().add(ResetPasswordEvent(
                                 params: ResetPasswordParams(
                                     email: widget.email,
-                                    password:
-                                        _passwordController.text.toString(),
-                                    passwordConfirm: _confirmPasswordController
-                                        .text
-                                        .toString())));
+                                    password: _passwordController.text.toString(),
+                                    passwordConfirm: _confirmPasswordController.text.toString())));
                           }
                         },
                         child: Text(AppLocalizations.of(context)!.submit)),

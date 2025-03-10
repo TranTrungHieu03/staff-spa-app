@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:spa_mobile/core/common/widgets/shimmer.dart';
-import 'package:spa_mobile/core/helpers/helper_functions.dart';
-import 'package:spa_mobile/core/utils/constants/colors.dart';
-import 'package:spa_mobile/core/utils/constants/sizes.dart';
+import 'package:staff_app/core/common/widgets/shimmer.dart';
+import 'package:staff_app/core/helpers/helper_functions.dart';
+import 'package:staff_app/core/utils/constants/colors.dart';
+import 'package:staff_app/core/utils/constants/sizes.dart';
 
 class TCircularImage extends StatelessWidget {
   const TCircularImage({
@@ -32,10 +32,7 @@ class TCircularImage extends StatelessWidget {
       height: height,
       padding: EdgeInsets.all(padding),
       decoration: BoxDecoration(
-          color: backgroundColor ??
-              (THelperFunctions.isDarkMode(context)
-                  ? TColors.black
-                  : TColors.white),
+          color: backgroundColor ?? (THelperFunctions.isDarkMode(context) ? TColors.black : TColors.white),
           borderRadius: BorderRadius.circular(width)),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(width),
@@ -46,8 +43,7 @@ class TCircularImage extends StatelessWidget {
                   color: overlayColor,
                   imageUrl: image,
                   errorWidget: (context, url, error) => const Icon(Icons.error),
-                  progressIndicatorBuilder: (context, url, downloadProgress) =>
-                      TShimmerEffect(width: width, height: height),
+                  progressIndicatorBuilder: (context, url, downloadProgress) => TShimmerEffect(width: width, height: height),
                 )
               : Image(
                   fit: fit,

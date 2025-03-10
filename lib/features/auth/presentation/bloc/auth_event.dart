@@ -4,26 +4,15 @@ part of 'auth_bloc.dart';
 sealed class AuthEvent {}
 
 class LoginEvent extends AuthEvent {
-  final String email;
-  final String password;
+  final LoginParams params;
 
-  LoginEvent(this.email, this.password);
+  LoginEvent(this.params);
 }
 
 class SignUpEvent extends AuthEvent {
-  final String email;
-  final String password;
-  final String role;
-  final String userName;
-  final String phoneNumber;
+  final SignUpParams params;
 
-  SignUpEvent({
-    required this.email,
-    required this.password,
-    required this.role,
-    required this.userName,
-    required this.phoneNumber,
-  });
+  SignUpEvent(this.params);
 }
 
 class VerifyEvent extends AuthEvent {
@@ -53,3 +42,7 @@ class ResetPasswordEvent extends AuthEvent {
 class GoogleLoginEvent extends AuthEvent {}
 
 class FacebookLoginEvent extends AuthEvent {}
+
+class GetUserInformationEvent extends AuthEvent {}
+
+class LogoutEvent extends AuthEvent {}

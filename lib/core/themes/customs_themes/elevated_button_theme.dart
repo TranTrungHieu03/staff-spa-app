@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:spa_mobile/core/utils/constants/colors.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:staff_app/core/utils/constants/colors.dart';
 
 class TElevatedButtonTheme {
   TElevatedButtonTheme._();
@@ -12,12 +13,8 @@ class TElevatedButtonTheme {
     disabledForegroundColor: Colors.grey,
     disabledBackgroundColor: Colors.grey,
     side: const BorderSide(color: TColors.primary),
-    padding: const EdgeInsets.symmetric(vertical: 18),
-    textStyle: const TextStyle(
-        fontSize: 16,
-        color: Colors.white,
-        fontWeight: FontWeight.w600,
-        fontFamily: 'IBMPlexSans'),
+    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+    textStyle: GoogleFonts.readexPro(fontSize: 17, color: Colors.white, fontWeight: FontWeight.w600),
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
   ));
   static final darkTheme = ElevatedButtonThemeData(
@@ -28,12 +25,8 @@ class TElevatedButtonTheme {
     disabledForegroundColor: Colors.grey,
     disabledBackgroundColor: Colors.grey,
     side: const BorderSide(color: TColors.primary),
-    padding: const EdgeInsets.symmetric(vertical: 18),
-    textStyle: const TextStyle(
-        fontSize: 16,
-        color: Colors.white,
-        fontWeight: FontWeight.w600,
-        fontFamily: 'IBMPlexSans'),
+    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+    textStyle: GoogleFonts.readexPro(fontSize: 17, color: Colors.white, fontWeight: FontWeight.w600),
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
   ));
 }

@@ -1,20 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:spa_mobile/core/utils/constants/colors.dart';
-import 'package:spa_mobile/core/utils/constants/sizes.dart';
+import 'package:staff_app/core/utils/constants/colors.dart';
+import 'package:staff_app/core/utils/constants/sizes.dart';
 
 class DatePickerWidget extends StatefulWidget {
   final Function(DateTime) onDateSelected; // Hàm callback trả về ngày được chọn
+  final DateTime initialDate;
 
-  const DatePickerWidget({Key? key, required this.onDateSelected})
-      : super(key: key);
+  const DatePickerWidget({super.key, required this.onDateSelected, required this.initialDate});
 
   @override
   _DatePickerWidgetState createState() => _DatePickerWidgetState();
 }
 
 class _DatePickerWidgetState extends State<DatePickerWidget> {
-  DateTime? _selectedDate;
+  late DateTime _selectedDate;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedDate = widget.initialDate;
+  }
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -31,7 +37,6 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
               onPrimary: Colors.white, // Màu chữ trong header
               surface: Colors.white, // Màu nền dialog
               onSurface: Colors.black, // Màu chữ trong body
-
             ),
             dialogBackgroundColor: Colors.white, // Màu nền tổng thể
           ),
@@ -62,15 +67,13 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              _selectedDate != null
-                  ? "${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}"
-                  : "Select a date",
-              style: Theme.of(context)!.textTheme.bodyMedium,
+              _selectedDate != null ? "${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year}" : "Select a date",
+              style: Theme.of(context).textTheme.bodyMedium,
             ),
             const SizedBox(
               width: TSizes.sm,
             ),
-            Icon(Iconsax.calendar_1, color: TColors.primary),
+            const Icon(Iconsax.calendar_1, color: TColors.primary),
           ],
         ),
       ),

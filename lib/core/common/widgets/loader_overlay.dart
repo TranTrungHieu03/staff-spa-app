@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:spa_mobile/core/common/widgets/animation_loader.dart';
+import 'package:staff_app/core/common/widgets/animation_loader.dart';
 
 class TFullScreenLoader {
-  static void openLoadingDialog(
-      BuildContext context, String text, String animation) {
+  static void openLoadingDialog(BuildContext context, String text, String animation) {
     showDialog(
       context: context,
       barrierDismissible: false,

@@ -12,8 +12,7 @@ class PasswordMatchCubit extends Cubit<PasswordMatchState> {
       emit(PasswordMatchUpdated(
         password: password,
         confirmPassword: currentState.confirmPassword,
-        isMatch: password == currentState.confirmPassword ||
-            currentState.confirmPassword == "",
+        isMatch: password == currentState.confirmPassword || currentState.confirmPassword == "",
       ));
     } else if (currentState is PasswordMatchInitial) {
       emit(PasswordMatchUpdated(
@@ -30,8 +29,7 @@ class PasswordMatchCubit extends Cubit<PasswordMatchState> {
       emit(PasswordMatchUpdated(
         password: currentState.password,
         confirmPassword: confirmPassword,
-        isMatch: currentState.password == confirmPassword ||
-            currentState.password == "",
+        isMatch: currentState.password == confirmPassword || currentState.password == "",
       ));
     } else if (currentState is PasswordMatchInitial) {
       emit(PasswordMatchUpdated(

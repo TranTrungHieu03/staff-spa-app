@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:spa_mobile/core/helpers/helper_functions.dart';
-import 'package:spa_mobile/core/utils/constants/colors.dart';
+import 'package:staff_app/core/helpers/helper_functions.dart';
+import 'package:staff_app/core/utils/constants/colors.dart';
 
 class TLoader extends StatelessWidget {
   const TLoader({super.key});
@@ -11,8 +11,8 @@ class TLoader extends StatelessWidget {
       color: TColors.white.withOpacity(0.4),
       width: THelperFunctions.screenWidth(context),
       height: THelperFunctions.screenHeight(context),
-      child: Center(
-        child: const CircularProgressIndicator(
+      child: const Center(
+        child: CircularProgressIndicator(
           color: TColors.primary,
         ),
       ),

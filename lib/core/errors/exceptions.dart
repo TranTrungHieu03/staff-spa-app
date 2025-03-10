@@ -11,7 +11,7 @@ class AppException implements Exception {
 
   @override
   String toString() {
-    return '$_message ${_prefix ?? ''}';// Returns the formatted error message
+    return '$_message ${_prefix ?? ''}'; // Returns the formatted error message
   }
 }
 

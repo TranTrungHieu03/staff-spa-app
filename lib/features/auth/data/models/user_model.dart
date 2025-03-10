@@ -1,21 +1,21 @@
-import 'package:spa_mobile/core/common/entities/user.dart';
+import 'package:staff_app/core/common/entities/user.dart';
 
 class UserModel extends User {
-  const UserModel({
-    required super.userId,
-    required super.userName,
-    super.fullName,
-    required super.email,
-    super.avatar,
-    super.gender,
-    super.city,
-    super.address,
-    super.birthDate,
-    super.phoneNumber,
-    super.status,
-    super.bonusPoint,
-    super.typeLogin,
-  });
+  const UserModel(
+      {required super.userId,
+      required super.userName,
+      super.fullName,
+      required super.email,
+      super.avatar,
+      super.gender,
+      super.city,
+      super.address,
+      super.birthDate,
+      super.phoneNumber,
+      super.status,
+      super.bonusPoint,
+      super.typeLogin,
+      super.roleID});
 
   UserModel copyWith({
     int? userId,
@@ -30,23 +30,24 @@ class UserModel extends User {
     String? phoneNumber,
     String? status,
     int? bonusPoint,
+    int? roleID,
     String? typeLogin,
   }) {
     return UserModel(
-      userId: userId ?? this.userId,
-      userName: userName ?? this.userName,
-      fullName: fullName ?? this.fullName,
-      email: email ?? this.email,
-      avatar: avatar ?? this.avatar,
-      gender: gender ?? this.gender,
-      city: city ?? this.city,
-      address: address ?? this.address,
-      birthDate: birthDate ?? this.birthDate,
-      phoneNumber: phoneNumber ?? this.phoneNumber,
-      status: status ?? this.status,
-      bonusPoint: bonusPoint ?? this.bonusPoint,
-      typeLogin: typeLogin ?? this.typeLogin,
-    );
+        userId: userId ?? this.userId,
+        userName: userName ?? this.userName,
+        fullName: fullName ?? this.fullName,
+        email: email ?? this.email,
+        avatar: avatar ?? this.avatar,
+        gender: gender ?? this.gender,
+        city: city ?? this.city,
+        address: address ?? this.address,
+        birthDate: birthDate ?? this.birthDate,
+        phoneNumber: phoneNumber ?? this.phoneNumber,
+        status: status ?? this.status,
+        bonusPoint: bonusPoint ?? this.bonusPoint,
+        typeLogin: typeLogin ?? this.typeLogin,
+        roleID: roleID ?? this.roleID);
   }
 
   Map<String, dynamic> toJson() {
@@ -64,6 +65,7 @@ class UserModel extends User {
       'status': status,
       'bonusPoint': bonusPoint,
       'typeLogin': typeLogin,
+      'roleID': roleID,
     };
   }
 
@@ -77,12 +79,12 @@ class UserModel extends User {
       gender: json['gender'],
       city: json['city'],
       address: json['address'],
-      birthDate:
-          json['birthDate'] != null ? DateTime.parse(json['birthDate']) : null,
+      birthDate: json['birthDate'] != null ? DateTime.parse(json['birthDate']) : null,
       phoneNumber: json['phoneNumber'],
       status: json['status'],
       bonusPoint: json['bonusPoint'],
       typeLogin: json['typeLogin'],
+      roleID: json['roleID'],
     );
   }
 }

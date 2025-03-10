@@ -26,4 +26,3 @@ final class PasswordMatchUpdated extends PasswordMatchState {
     required this.isMatch,
   });
 }
-

@@ -1,26 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:staff_app/core/logger/logger.dart';
 
 class LanguageProvider with ChangeNotifier {
-  Locale _locale = const Locale('en');
+  Locale _locale = const Locale('vi');
 
   Locale get locale => _locale;
 
   Future<void> loadLanguage() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      String? languageCode = prefs.getString('language_code') ??
-          WidgetsBinding.instance.window.locale.languageCode;
+      String? languageCode = prefs.getString('language_code') ?? WidgetsBinding.instance.window.locale.languageCode;
 
-      if (languageCode == null || languageCode.isEmpty) {
-        languageCode = 'en';
+      AppLogger.info('Language code: $languageCode');
+      if (languageCode.isEmpty) {
+        languageCode = 'vi';
         await prefs.setString('language_code', languageCode);
       }
 
       _locale = Locale(languageCode);
       notifyListeners();
     } catch (e) {
-      debugPrint('Error loading language: $e');
+      AppLogger.info('Error loading language: $e');
     }
   }
 
@@ -28,11 +29,10 @@ class LanguageProvider with ChangeNotifier {
     try {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('language_code', locale.languageCode);
-      print("change");
       _locale = locale;
       notifyListeners();
     } catch (e) {
-      debugPrint('Error changing language: $e');
+      AppLogger.info('Error changing language: $e');
     }
   }
 
@@ -44,5 +44,13 @@ class LanguageProvider with ChangeNotifier {
       default:
         return 'English';
     }
+  }
+
+  String getCurrentLanguageName() {
+    return getLanguageName(_locale.languageCode);
+  }
+
+  String getCurrentLanguageCode() {
+    return _locale.languageCode;
   }
 }

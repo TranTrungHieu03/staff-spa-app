@@ -1,6 +1,6 @@
-import 'package:spa_mobile/core/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
-import 'package:spa_mobile/core/helpers/helper_functions.dart';
+import 'package:staff_app/core/helpers/helper_functions.dart';
+import 'package:staff_app/core/utils/constants/sizes.dart';
 
 class TRoundedIcon extends StatelessWidget {
   const TRoundedIcon(
@@ -28,10 +28,7 @@ class TRoundedIcon extends StatelessWidget {
       width: width,
       height: height,
       decoration: BoxDecoration(
-        color: backgroundColor ??
-            (dark
-                ? Colors.black.withOpacity(0.9)
-                : Colors.white.withOpacity(0.9)),
+        color: backgroundColor ?? (dark ? Colors.black.withOpacity(0.9) : Colors.white.withOpacity(0.9)),
         borderRadius: BorderRadius.circular(borderRadius),
       ),
       child: IconButton(

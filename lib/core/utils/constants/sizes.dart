@@ -39,7 +39,7 @@ class TSizes {
   //Product items Dimension
   static const double productImageSize = 120.0;
   static const double productImageRadius = 16.0;
-  static const double productImageHeight = 160.0;
+  static const double productHeight = 180.0;
 
   //Input field
   static const double inputFieldRadius = 12.0;
@@ -60,4 +60,11 @@ class TSizes {
 
   //Grid view Spacing
   static const double gridViewSpacing = 16.0;
+
+  //Shimmer effect
+  static const double shimmerSx = 25.0;
+  static const double shimmerSm = 60.0;
+  static const double shimmerMd = 90.0;
+  static const double shimmerLg = 150.0;
+  static const double shimmerXl = 180.0;
 }

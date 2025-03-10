@@ -3,33 +3,23 @@ part of 'exports_navigators.dart';
 final navigatorKey = GlobalKey<NavigatorState>();
 
 goSignUp() async {
-  Navigator.push(
+  Navigator.pushAndRemoveUntil(
       navigatorKey.currentContext!,
       MaterialPageRoute(
           builder: (_) => MultiBlocProvider(
                 providers: [
                   BlocProvider(create: (_) => serviceLocator<PasswordCubit>()),
-                  BlocProvider(
-                      create: (_) => serviceLocator<PasswordConfirmCubit>()),
-                  BlocProvider(
-                      create: (_) => serviceLocator<PolicyTermCubit>()),
-                  BlocProvider(
-                      create: (_) => serviceLocator<PasswordMatchCubit>()),
+                  BlocProvider(create: (_) => serviceLocator<PasswordConfirmCubit>()),
+                  BlocProvider(create: (_) => serviceLocator<PolicyTermCubit>()),
+                  BlocProvider(create: (_) => serviceLocator<PasswordMatchCubit>()),
                 ],
                 child: const SignUpScreen(),
-              )));
+              )),
+      (Route<dynamic> route) => false);
 }
 
 goForgotPassword() async {
-  Navigator.push(navigatorKey.currentContext!,
-      MaterialPageRoute(builder: (context) => const ForgotPasswordScreen()));
-}
-
-goProductDetail(String id) async {
-  Navigator.push(
-      navigatorKey.currentContext!,
-      MaterialPageRoute(
-          builder: (context) => ProductDetailScreen(productId: id)));
+  Navigator.push(navigatorKey.currentContext!, MaterialPageRoute(builder: (context) => const ForgotPasswordScreen()));
 }
 
 goSetPassword(String email) async {
@@ -39,33 +29,17 @@ goSetPassword(String email) async {
           builder: (_) => MultiBlocProvider(
                 providers: [
                   BlocProvider(create: (_) => serviceLocator<PasswordCubit>()),
-                  BlocProvider(
-                      create: (_) => serviceLocator<PasswordConfirmCubit>()),
-                  BlocProvider(
-                      create: (_) => serviceLocator<PasswordMatchCubit>()),
+                  BlocProvider(create: (_) => serviceLocator<PasswordConfirmCubit>()),
+                  BlocProvider(create: (_) => serviceLocator<PasswordMatchCubit>()),
                 ],
                 child: SetPasswordScreen(email: email),
               )));
 }
 
-goBookingDetail(String id) async {
-  Navigator.push(
-      navigatorKey.currentContext!,
-      MaterialPageRoute(
-          builder: (context) => BookingDetailScreen(bookingId: id)));
-}
-
-goCart() async {
-  Navigator.push(navigatorKey.currentContext!,
-      MaterialPageRoute(builder: (context) => const MyCartScreen()));
-}
-
 goHome() async {
-  navigatorKey.currentContext!
-      .read<NavigationBloc>()
-      .add(ChangeSelectedIndexEvent(0));
-  Navigator.push(navigatorKey.currentContext!,
-      MaterialPageRoute(builder: (context) => const NavigationMenu()));
+  navigatorKey.currentContext!.read<NavigationBloc>().add(ChangeSelectedIndexEvent(0));
+  Navigator.pushAndRemoveUntil(
+      navigatorKey.currentContext!, MaterialPageRoute(builder: (context) => const NavigationMenu()), (Route<dynamic> route) => false);
 }
 
 goLogin() async {
@@ -75,8 +49,7 @@ goLogin() async {
           builder: (_) => MultiBlocProvider(
                 providers: [
                   BlocProvider(create: (_) => serviceLocator<PasswordCubit>()),
-                  BlocProvider(
-                      create: (_) => serviceLocator<RememberMeCubit>()),
+                  BlocProvider(create: (_) => serviceLocator<RememberMeCubit>()),
                 ],
                 child: const LoginScreen(),
               )));
@@ -93,51 +66,11 @@ goLoginNotBack() async {
       (Route<dynamic> route) => false);
 }
 
-goCheckout() async {
-  Navigator.push(navigatorKey.currentContext!,
-      MaterialPageRoute(builder: (context) => const CheckoutScreen()));
-}
-
-goShipmentInfo() async {
-  Navigator.push(
-      navigatorKey.currentContext!,
-      MaterialPageRoute(
-          builder: (context) => const ShipmentInformationScreen()));
-}
-
-goServiceHistory() async {
-  Navigator.push(navigatorKey.currentContext!,
-      MaterialPageRoute(builder: (context) => const ServiceHistoryScreen()));
-}
-
-goSearch() async {
-  Navigator.push(navigatorKey.currentContext!,
-      MaterialPageRoute(builder: (context) => const SearchScreen()));
-}
-
-goHistory() async {
-  Navigator.pushAndRemoveUntil(
-      navigatorKey.currentContext!,
-      MaterialPageRoute(builder: (context) => const HistoryScreen()),
-      (Route<dynamic> route) => false);
-}
-
 goProfile() async {
-  Navigator.push(navigatorKey.currentContext!,
-      MaterialPageRoute(builder: (context) => const ProfileScreen()));
+  Navigator.push(navigatorKey.currentContext!, MaterialPageRoute(builder: (context) => const ProfileScreen()));
 }
 
-goServiceDetail(String id) async {
-  Navigator.push(
-      navigatorKey.currentContext!,
-      MaterialPageRoute(
-          builder: (context) => ServiceDetailScreen(
-                serviceId: id,
-              )));
-}
-
-goSuccess(
-    String title, String subTitle, VoidCallback onPressed, String image) async {
+goSuccess(String title, String subTitle, VoidCallback onPressed, String image) async {
   Navigator.push(
       navigatorKey.currentContext!,
       MaterialPageRoute(
@@ -147,16 +80,6 @@ goSuccess(
                 onPressed: onPressed,
                 image: image,
               )));
-}
-
-goServiceBooking() async {
-  Navigator.push(navigatorKey.currentContext!,
-      MaterialPageRoute(builder: (context) => const BookingServiceScreen()));
-}
-
-goServiceCheckout() async {
-  Navigator.push(navigatorKey.currentContext!,
-      MaterialPageRoute(builder: (context) => const CheckoutServiceScreen()));
 }
 
 goVerify(String email, int statePage) async {
@@ -169,25 +92,16 @@ goVerify(String email, int statePage) async {
               )));
 }
 
-goChat() async {
-  Navigator.push(navigatorKey.currentContext!,
-      MaterialPageRoute(builder: (context) => const ChatAiScreen()));
+goOnboarding() async {
+  Navigator.push(navigatorKey.currentContext!, MaterialPageRoute(builder: (context) => const OnBoardingScreen()));
 }
 
-goFeedback() async {
-  Navigator.push(navigatorKey.currentContext!,
-      MaterialPageRoute(builder: (context) => const FeedbackScreen()));
-}
-
-goStatusService(String title, String content, Widget value, String image,
-    Color color) async {
+goScanner() async {
   Navigator.push(
       navigatorKey.currentContext!,
       MaterialPageRoute(
-          builder: (context) => StatusServiceScreen(
-              title: title,
-              content: content,
-              value: value,
-              image: image,
-              color: color)));
+          builder: (context) => BlocProvider(
+                create: (context) => serviceLocator<AppointmentBloc>(),
+                child: const CheckInArrivedScreen(),
+              )));
 }
