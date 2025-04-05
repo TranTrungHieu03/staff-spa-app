@@ -39,7 +39,7 @@ class AppointmentRemoteDataSourceImpl implements AppointmentRemoteDataSource {
   @override
   Future<int> checkIn(CheckInParams params) async {
     try {
-      final response = await _apiService.putApi('/Appointments/update/${params.orderId}', params.toJson());
+      final response = await _apiService.patch('/Order/update-order-status', params.toJson());
 
       final apiResponse = ApiResponse.fromJson(response);
 

@@ -21,6 +21,6 @@ class LoginParams {
   LoginParams({required this.email, required this.password});
 
   Map<String, dynamic> toJson() {
-    return <String, dynamic>{'email': email, 'password': password};
+    return <String, dynamic>{'identifier': email, 'password': password};
   }
 }

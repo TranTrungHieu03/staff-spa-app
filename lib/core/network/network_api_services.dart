@@ -29,9 +29,14 @@ class NetworkApiService implements BaseApiServices {
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
-          _cachedToken = _cachedToken ??= await authService.getToken();
+          AppLogger.info(options.path);
+          if (options.path != '/register' && options.path != '/Auth/login' && options.path != '/Auth/first-step') {
+            _cachedToken = _cachedToken ??= await authService.getToken();
+            options.headers['Authorization'] = 'Bearer $_cachedToken';
+          }
+          // _cachedToken = _cachedToken ??= await authService.getToken();
 
-          options.headers['Authorization'] = 'Bearer $_cachedToken';
+          // options.headers['Authorization'] = 'Bearer $_cachedToken';
           if (options.data is! FormData) {
             options.headers['Content-Type'] = 'application/json';
           }
@@ -180,6 +185,8 @@ class NetworkApiService implements BaseApiServices {
     } on DioException catch (e) {
       if (kDebugMode) {
         AppLogger.error(e);
+        AppLogger.error(e.error);
+        AppLogger.error(e.message);
       }
       if (e.type == DioExceptionType.badResponse) {
         return returnResponse(e.response!);
@@ -227,16 +234,17 @@ class NetworkApiService implements BaseApiServices {
           return response.data;
         }
       case 401:
-        throw UnauthorisedException(response.data.toString());
+      // throw UnauthorisedException(response.data.toString());
       case 500:
       case 404:
-        throw BadRequestException(response.data.toString());
+        // throw BadRequestException(response.data['message']);
+        return response.data;
       default:
         throw FetchDataException('Error occurred while communicating with server');
     }
   }
 
-  void clearTokenCache() {
+  void clearTokenCache() async {
     _cachedToken = null;
     if (kDebugMode) {
       AppLogger.info("==> Token cache cleared");
@@ -273,7 +281,27 @@ class NetworkApiService implements BaseApiServices {
   }
 
   @override
-  Future putApi(String url, data) async {
+  Future deleteApi(String url) async {
+    dynamic responseJson;
+    try {
+      final response = await _dio.delete(url);
+      responseJson = returnResponse(response);
+
+      if (kDebugMode) {
+        AppLogger.debug(responseJson);
+      }
+      return responseJson;
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.badResponse) {
+        return returnResponse(e.response!);
+      } else {
+        _handleDioException(e);
+      }
+    }
+  }
+
+  @override
+  Future putApi(String url, dynamic data) async {
     if (kDebugMode) {
       AppLogger.debug(data);
     }
@@ -296,6 +324,51 @@ class NetworkApiService implements BaseApiServices {
       }
 
       final Response response = await _dio.put(
+        url,
+        data: data,
+        options: data is FormData ? Options(headers: {'Content-Type': 'multipart/form-data'}) : null,
+      );
+      responseJson = returnResponse(response);
+      if (kDebugMode) {
+        AppLogger.debug(responseJson);
+      }
+      return responseJson;
+    } on DioException catch (e) {
+      if (kDebugMode) {
+        AppLogger.error(e);
+      }
+      if (e.type == DioExceptionType.badResponse) {
+        return returnResponse(e.response!);
+      } else {
+        _handleDioException(e);
+      }
+    }
+  }
+
+  @override
+  Future patch(String url, dynamic data) async {
+    if (kDebugMode) {
+      AppLogger.debug(data);
+    }
+
+    dynamic responseJson;
+    try {
+      AppLogger.debug("1######### ${data is FormData}");
+      if (data is FormData) {
+        AppLogger.debug("FormData fields: ${data.fields}");
+        AppLogger.debug("FormData files: ${data.files}");
+        for (final file in data.files) {
+          final String key = file.key;
+          final MultipartFile multipartFile = file.value;
+
+          AppLogger.debug("File Field Key: $key");
+          AppLogger.debug("File Name: ${multipartFile.filename}");
+          AppLogger.debug("File Content-Type: ${multipartFile.contentType}");
+          AppLogger.debug("File Length: ${multipartFile.length}");
+        }
+      }
+
+      final Response response = await _dio.patch(
         url,
         data: data,
         options: data is FormData ? Options(headers: {'Content-Type': 'multipart/form-data'}) : null,

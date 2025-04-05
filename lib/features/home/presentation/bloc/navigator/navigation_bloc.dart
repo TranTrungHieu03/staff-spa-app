@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:staff_app/features/appointment/presentation/screens/work_schedule_screen.dart';
+import 'package:staff_app/features/chat/presentation/screens/chat_list_screen.dart';
 import 'package:staff_app/features/home/presentation/screen/home_screen.dart';
 import 'package:staff_app/features/user/presentation/screens/setting_screen.dart';
 
@@ -12,7 +13,7 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
     const HomeScreen(),
     const WorkScheduleScreen(),
     const SizedBox(),
-    const SettingScreen(),
+    const WrapperChatListScreen(),
     const SettingScreen(),
   ];
 

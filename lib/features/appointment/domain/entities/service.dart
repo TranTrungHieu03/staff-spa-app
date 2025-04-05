@@ -23,25 +23,6 @@ class Service extends Equatable {
     required this.steps,
   });
 
-  // Service copyWith(
-  //         {int? serviceId,
-  //         String? name,
-  //         String? description,
-  //         double? price,
-  //         String? duration,
-  //         String? status,
-  //         List<String>? images,
-  //         String? steps}) =>
-  //     Service(
-  //         serviceId: serviceId ?? this.serviceId,
-  //         name: name ?? this.name,
-  //         description: description ?? this.description,
-  //         price: price ?? this.price,
-  //         duration: duration ?? this.duration,
-  //         status: status ?? this.status,
-  //         steps: steps ?? this.steps,
-  //         images: images ?? List.from(this.images));
-
   @override
   // TODO: implement props
   List<Object?> get props => throw UnimplementedError();

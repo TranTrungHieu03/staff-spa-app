@@ -16,6 +16,7 @@ import 'package:staff_app/features/auth/presentation/screens/on_boarding_screen.
 import 'package:staff_app/features/auth/presentation/screens/set_password_screen.dart';
 import 'package:staff_app/features/auth/presentation/screens/sign_up_screen.dart';
 import 'package:staff_app/features/auth/presentation/screens/verify_screen.dart';
+import 'package:staff_app/features/chat/presentation/screens/chat_screen.dart';
 import 'package:staff_app/features/home/presentation/bloc/navigator/navigation_bloc.dart';
 import 'package:staff_app/features/home/presentation/widgets/navigator_menu.dart';
 import 'package:staff_app/features/user/presentation/screens/profile_screen.dart';

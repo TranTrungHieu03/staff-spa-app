@@ -105,3 +105,7 @@ goScanner() async {
                 child: const CheckInArrivedScreen(),
               )));
 }
+
+goChatRoom(String channelId) async {
+  Navigator.push(navigatorKey.currentContext!, MaterialPageRoute(builder: (context) => WrapperChatRoom(channelId: channelId)));
+}
