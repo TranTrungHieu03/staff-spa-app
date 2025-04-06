@@ -65,29 +65,29 @@ Future<void> _initChat() async {
   //datasource
   serviceLocator
     ..registerFactory<HubRemoteDataSource>(() => HubRemoteDataSourceImpl(serviceLocator<NetworkApiService>()))
-    ..registerFactory<ChatRemoteDataSource>(() => SignalRChatRemoteDataSource(hubUrl: "https://solaceapi.ddnsking.com/chat"))
+    // ..registerFactory<ChatRemoteDataSource>(() => SignalRChatRemoteDataSource(hubUrl: "https://solaceapi.ddnsking.com/chat"))
     //repository
-    ..registerFactory<ChatRepository>(() => ChatRepositoryImpl(serviceLocator<ChatRemoteDataSource>()))
+    // ..registerFactory<ChatRepository>(() => ChatRepositoryImpl(serviceLocator<ChatRemoteDataSource>()))
     ..registerFactory<HubRepository>(() => HubRepositoryImpl(serviceLocator<HubRemoteDataSource>()))
 
     //use cases
-    ..registerFactory(() => ConnectHub(serviceLocator()))
-    ..registerFactory(() => DisconnectHub(serviceLocator()))
-    ..registerFactory(() => SendMessage(serviceLocator()))
+    // ..registerFactory(() => ConnectHub(serviceLocator()))
+    // ..registerFactory(() => DisconnectHub(serviceLocator()))
+    // ..registerFactory(() => SendMessage(serviceLocator()))
     ..registerFactory(() => GetListMessage(serviceLocator()))
     ..registerFactory(() => GetUserChatInfo(serviceLocator()))
     ..registerFactory(() => GetListChannel(serviceLocator()))
     ..registerFactory(() => GetChannel(serviceLocator()))
-    ..registerFactory(() => GetMessages(serviceLocator()))
+    // ..registerFactory(() => GetMessages(serviceLocator()))
 
     //bloc
     ..registerLazySingleton(() => ListMessageBloc(getListMessage: serviceLocator()))
-    ..registerLazySingleton(() => ChatBloc(
-          getMessages: serviceLocator(),
-          sendMessage: serviceLocator(),
-          connect: serviceLocator(),
-          disconnect: serviceLocator(),
-        ))
+    // ..registerLazySingleton(() => ChatBloc(
+    //       getMessages: serviceLocator(),
+    //       sendMessage: serviceLocator(),
+    //       connect: serviceLocator(),
+    //       disconnect: serviceLocator(),
+    //     ))
     ..registerLazySingleton(() => UserChatBloc(getUserChatInfo: serviceLocator()))
     ..registerLazySingleton(() => ListChannelBloc(getListChannel: serviceLocator()))
     ..registerLazySingleton(() => ChannelBloc(getChannel: serviceLocator()));

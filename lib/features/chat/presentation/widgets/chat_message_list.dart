@@ -25,16 +25,16 @@ Widget chatItemWidget(MessageChannelModel e, String currentUserId) {
   return e.sender == "0"
       ? systemMessageWidget(e.content ?? '')
       : Padding(
-    padding: const EdgeInsets.only(left: TSizes.xs, right: TSizes.xs),
-    child: Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        if (!isMyChat) userAvatar(e.sender, e.senderCustomer.fullName),
-        messageTextAndName(isMyChat, e.content ?? '', e.senderCustomer.fullName),
-        if (isMyChat) messageTime(isMyChat, e),
-      ],
-    ),
-  );
+          padding: const EdgeInsets.only(left: TSizes.xs, right: TSizes.xs),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              if (!isMyChat) userAvatar(e.sender, e.senderCustomer?.fullName ?? "User"),
+              messageTextAndName(isMyChat, e.content ?? '', e.senderCustomer?.fullName ?? "User"),
+              if (isMyChat) messageTime(isMyChat, e),
+            ],
+          ),
+        );
 }
 
 Widget systemMessageWidget(String text) {
@@ -81,14 +81,14 @@ Widget messageTextAndName(bool isMyChat, String messageText, String userName) {
       child: Column(
         crossAxisAlignment: isMyChat ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: [
-          if (!isMyChat)
-            Text(
-              userName,
-              style: TextStyle(
-                color: Colors.grey,
-                fontSize: 13,
-              ),
-            ),
+          // if (!isMyChat)
+          //   Text(
+          //     userName,
+          //     style: TextStyle(
+          //       color: Colors.grey,
+          //       fontSize: 13,
+          //     ),
+          //   ),
           Container(
             padding: EdgeInsets.fromLTRB(14, isMyChat ? 4 : 10, 14, 8),
             decoration: BoxDecoration(

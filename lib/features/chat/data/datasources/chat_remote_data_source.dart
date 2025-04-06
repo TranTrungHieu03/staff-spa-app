@@ -1,7 +1,8 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:signalr_netcore/ihub_protocol.dart';
 import 'package:signalr_netcore/signalr_client.dart';
-import 'package:staff_app/core/logger/logger.dart';
 import 'package:staff_app/features/chat/data/models/message_channel_model.dart';
 import 'package:staff_app/features/chat/domain/usecases/send_message.dart';
 
@@ -17,22 +18,41 @@ abstract class ChatRemoteDataSource {
 
 class SignalRChatRemoteDataSource implements ChatRemoteDataSource {
   late HubConnection _hubConnection;
+
   final StreamController<MessageChannelModel> _messageStreamController = StreamController<MessageChannelModel>.broadcast();
 
-  SignalRChatRemoteDataSource({required String hubUrl}) {
-    _hubConnection = HubConnectionBuilder().withUrl(hubUrl).withAutomaticReconnect(retryDelays: [2000, 5000]).build();
+  SignalRChatRemoteDataSource({required String hubUrl, required String userId}) {
+    var defaultHeaders = MessageHeaders();
+    defaultHeaders.setHeaderValue("withCredentials", "true");
+
+    _hubConnection = HubConnectionBuilder()
+        .withUrl(
+      '$hubUrl?userId=$userId',
+      options: HttpConnectionOptions(
+        headers: defaultHeaders,
+      ),
+    )
+        .withAutomaticReconnect(retryDelays: [2000, 5000]).build();
 
     _hubConnection.on("receiveChannelMessage", (arguments) {
-      AppLogger.info(arguments);
       if (arguments != null && arguments.isNotEmpty) {
-        final message = MessageChannelModel.fromJson(arguments as Map<String, dynamic>);
-        _messageStreamController.add(message);
+        try {
+          final message = MessageChannelModel.fromJson(json.decode(json.encode(arguments[0])));
+
+          handleMessageReceived(message);
+        } catch (e) {}
       }
     });
   }
 
+  void handleMessageReceived(MessageChannelModel message) {
+    _messageStreamController.add(message);
+  }
+
   @override
-  Stream<MessageChannelModel> getMessages() => _messageStreamController.stream;
+  Stream<MessageChannelModel> getMessages() {
+    return _messageStreamController.stream;
+  }
 
   @override
   Future<void> sendMessage(SendMessageParams params) async {
@@ -49,9 +69,7 @@ class SignalRChatRemoteDataSource implements ChatRemoteDataSource {
         "SendMessageToChannel",
         args: [params.channelId, params.senderId, params.content ?? "", params.messageType, params.fileUrl ?? ""],
       );
-      AppLogger.info("Message sent successfully to channel ${params.channelId}");
     } catch (e) {
-      AppLogger.error("Failed to send message to channel ${params.channelId}", error: e);
       throw Exception("Failed to send message: ${e.toString()}");
     }
   }
@@ -59,9 +77,7 @@ class SignalRChatRemoteDataSource implements ChatRemoteDataSource {
   @override
   Future<void> connect() async {
     if (_hubConnection.state == HubConnectionState.Disconnected) {
-      AppLogger.info("Attempting to connect to hub: ${_hubConnection.baseUrl}");
-      await _hubConnection.start();
-      AppLogger.info("Connected successfully: ${_hubConnection.connectionId}");
+      await _hubConnection.start()?.then((_) {}).catchError((error) {});
     }
   }
 

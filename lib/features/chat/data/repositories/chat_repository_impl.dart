@@ -6,7 +6,6 @@ import 'package:staff_app/features/chat/data/models/message_channel_model.dart';
 import 'package:staff_app/features/chat/domain/repositories/chat_repository.dart';
 import 'package:staff_app/features/chat/domain/usecases/send_message.dart';
 
-
 class ChatRepositoryImpl implements ChatRepository {
   final ChatRemoteDataSource _remoteDataSource;
 

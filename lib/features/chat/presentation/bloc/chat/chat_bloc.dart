@@ -46,7 +46,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   }
 
   Future<void> _setupMessageStream(Emitter<ChatState> emit) async {
-    _messagesSubscription?.cancel();
+    // _messagesSubscription?.cancel();
 
     final result = await getMessages(NoParams());
 
@@ -62,7 +62,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   }
 
   Future<void> _onDisconnect(ChatDisconnectEvent event, Emitter<ChatState> emit) async {
-    await _messagesSubscription?.cancel();
+    // await _messagesSubscription?.cancel();
     final result = await disconnect(NoParams());
 
     result.fold(
@@ -76,7 +76,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   }
 
   Future<void> _onSendMessage(ChatSendMessageEvent event, Emitter<ChatState> emit) async {
-    // if (event.params.content?.trim().isEmpty) return;
+    if (event.params.content?.trim().isEmpty ?? true) return;
 
     final result = await sendMessage(event.params);
 
@@ -84,10 +84,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       (failure) {
         emit(ChatError(failure.message));
       },
-      (_) {
-        // Message sent successfully
-        // The message will be received via the stream
-      },
+      (_) {},
     );
   }
 
@@ -98,7 +95,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
   @override
   Future<void> close() {
-    _messagesSubscription?.cancel();
+    // _messagesSubscription?.cancel();
     return super.close();
   }
 }

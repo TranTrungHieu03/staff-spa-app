@@ -31,21 +31,6 @@ class _WrapperChatListScreenState extends State<WrapperChatListScreen> {
   }
 }
 
-// Model to represent a chat conversation
-class ChatConversation {
-  final String customerName;
-  final String lastMessage;
-  final DateTime timestamp;
-  final bool isUnread;
-
-  ChatConversation({
-    required this.customerName,
-    required this.lastMessage,
-    required this.timestamp,
-    this.isUnread = false,
-  });
-}
-
 class ChatListScreen extends StatefulWidget {
   const ChatListScreen({super.key});
 
@@ -56,26 +41,6 @@ class ChatListScreen extends StatefulWidget {
 class _ChatListScreenState extends State<ChatListScreen> {
   UserChatModel? userChatModel;
   late int userId;
-
-  // Sample chat conversations (In a real app, this would come from a backend/state management)
-  final List<ChatConversation> conversations = [
-    ChatConversation(
-      customerName: 'John Doe',
-      lastMessage: 'Tôi muốn đặt dịch vụ massage',
-      timestamp: DateTime.now().subtract(const Duration(minutes: 10)),
-      isUnread: true,
-    ),
-    ChatConversation(
-      customerName: 'Jane Smith',
-      lastMessage: 'Cảm ơn nhân viên đã hỗ trợ',
-      timestamp: DateTime.now().subtract(const Duration(hours: 2)),
-    ),
-    ChatConversation(
-      customerName: 'Mike Brown',
-      lastMessage: 'Tôi có câu hỏi về gói dịch vụ',
-      timestamp: DateTime.now().subtract(const Duration(days: 1)),
-    ),
-  ];
 
   @override
   void initState() {
@@ -127,7 +92,6 @@ class _ChatListScreenState extends State<ChatListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    AppLogger.info(userChatModel?.id);
     return Scaffold(
       appBar: TAppbar(
         showBackArrow: true,
@@ -177,7 +141,11 @@ class _ChatListScreenState extends State<ChatListScreen> {
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey),
                     ),
                     onTap: () {
-                      goChatRoom(conversation.id);
+                      if (userChatModel?.id != null) {
+                        goChatRoom(conversation.id, userChatModel!.id);
+                      } else {
+                        TSnackBar.errorSnackBar(context, message: "Lỗi không xác định");
+                      }
                     },
                   );
                 },

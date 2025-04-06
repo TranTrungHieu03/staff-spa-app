@@ -2,7 +2,7 @@ import 'package:staff_app/features/chat/data/models/user_chat_model.dart';
 import 'package:staff_app/features/chat/domain/entities/message_channel.dart';
 
 class MessageChannelModel extends MessageChannel {
-  final UserChatModel senderCustomer;
+  final UserChatModel? senderCustomer;
 
   MessageChannelModel(
       {required super.id,
@@ -23,7 +23,7 @@ class MessageChannelModel extends MessageChannel {
       timestamp: json['timestamp'] as String,
       messageType: json['messageType'] as String,
       fileUrl: json['fileUrl'] as String?,
-      senderCustomer: UserChatModel.fromJson(json['senderCustomer'] as Map<String, dynamic>),
+      senderCustomer: json['senderCustomer'] != null ? UserChatModel.fromJson(json['senderCustomer'] as Map<String, dynamic>) : null,
     );
   }
 

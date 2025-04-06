@@ -106,6 +106,7 @@ goScanner() async {
               )));
 }
 
-goChatRoom(String channelId) async {
-  Navigator.push(navigatorKey.currentContext!, MaterialPageRoute(builder: (context) => WrapperChatRoom(channelId: channelId)));
+goChatRoom(String channelId, String userId) async {
+  Navigator.push(
+      navigatorKey.currentContext!, MaterialPageRoute(builder: (context) => WrapperChatRoom(channelId: channelId, userId: userId)));
 }
