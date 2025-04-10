@@ -7,5 +7,5 @@ import 'package:staff_app/features/appointment/domain/usecases/get_appointment.d
 abstract class AppointmentRepository {
   Future<Either<Failure, OrderAppointmentModel>> getAppointment(GetAppointmentParams params);
 
-  Future<Either<Failure, int>> checkIn(CheckInParams params);
+  Future<Either<Failure, String>> checkIn(CheckInParams params);
 }

@@ -9,7 +9,7 @@ import 'package:staff_app/features/appointment/domain/usecases/get_appointment.d
 abstract class AppointmentRemoteDataSource {
   Future<OrderAppointmentModel> getAppointment(GetAppointmentParams params);
 
-  Future<int> checkIn(CheckInParams params);
+  Future<String> checkIn(CheckInParams params);
 }
 
 class AppointmentRemoteDataSourceImpl implements AppointmentRemoteDataSource {
@@ -37,14 +37,15 @@ class AppointmentRemoteDataSourceImpl implements AppointmentRemoteDataSource {
   }
 
   @override
-  Future<int> checkIn(CheckInParams params) async {
+  Future<String> checkIn(CheckInParams params) async {
     try {
-      final response = await _apiService.patch('/Order/update-order-status', params.toJson());
+      final response =
+          await _apiService.patch('/Order/update-order-status?orderId=${params.orderId}&orderStatus=${params.status}', params.toJson());
 
       final apiResponse = ApiResponse.fromJson(response);
 
       if (apiResponse.success) {
-        return apiResponse.result!.data;
+        return apiResponse.result!.message.toString();
       } else {
         throw AppException(apiResponse.result!.message!);
       }

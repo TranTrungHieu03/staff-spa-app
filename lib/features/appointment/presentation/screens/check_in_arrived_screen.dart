@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:staff_app/core/common/widgets/appbar.dart';
@@ -26,6 +27,7 @@ class _CheckInArrivedScreenState extends State<CheckInArrivedScreen> with Single
   late AnimationController _animationController;
   late Animation<double> _scanLinePosition;
   bool isScanned = false;
+  bool blocIsActive = true;
 
   @override
   void initState() {
@@ -45,6 +47,7 @@ class _CheckInArrivedScreenState extends State<CheckInArrivedScreen> with Single
   void dispose() {
     _animationController.dispose();
     cameraController.dispose();
+    blocIsActive = false;
     super.dispose();
   }
 
@@ -58,11 +61,21 @@ class _CheckInArrivedScreenState extends State<CheckInArrivedScreen> with Single
           AppLogger.info('Scanned ID: $id');
 
           isScanned = true;
-          context.read<AppointmentBloc>().add(
-            CheckInEvent(CheckInParams(orderId: id)),
-          );
+          SchedulerBinding.instance.addPostFrameCallback((_) {
+            if (!mounted || !blocIsActive) return;
+
+            try {
+              context.read<AppointmentBloc>().add(
+                    CheckInEvent(CheckInParams(orderId: id)),
+                  );
+            } catch (e) {
+              AppLogger.error('Failed to add event to Bloc: $e');
+              isScanned = false;
+            }
+          });
         } catch (e) {
           AppLogger.error('Failed to parse QR code: $e');
+          isScanned = false;
         }
       }
     }
@@ -83,7 +96,7 @@ class _CheckInArrivedScreenState extends State<CheckInArrivedScreen> with Single
           isScanned = false;
         }
         if (state is AppointmentIdLoaded) {
-          TSnackBar.successSnackBar(context, message: "Check in success!");
+          TSnackBar.successSnackBar(context, message: state.id);
         }
       },
       builder: (context, state) {

@@ -30,7 +30,7 @@ class NetworkApiService implements BaseApiServices {
       InterceptorsWrapper(
         onRequest: (options, handler) async {
           AppLogger.info(options.path);
-          if (options.path != '/register' && options.path != '/Auth/login' && options.path != '/Auth/first-step') {
+          if (options.path != '/Auth/register' && options.path != '/Auth/login' && options.path != '/Auth/first-step') {
             _cachedToken = _cachedToken ??= await authService.getToken();
             options.headers['Authorization'] = 'Bearer $_cachedToken';
           }

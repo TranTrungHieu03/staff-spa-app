@@ -58,8 +58,8 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: const EdgeInsets.all(TSizes.sm),
         child: Column(
           children: [
-            Text("Current appointment", style: Theme.of(context).textTheme.titleLarge),
-            ElevatedButton(onPressed: () => {}, child: Text("Đăng kí ca làm"))
+            // Text("Current appointment", style: Theme.of(context).textTheme.titleLarge),
+            // ElevatedButton(onPressed: () => {}, child: Text("Đăng kí ca làm"))
           ],
         ),
       ),

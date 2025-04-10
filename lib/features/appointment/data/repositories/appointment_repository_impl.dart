@@ -22,9 +22,9 @@ class AppointmentRepositoryImpl implements AppointmentRepository {
   }
 
   @override
-  Future<Either<Failure, int>> checkIn(CheckInParams params) async {
+  Future<Either<Failure, String>> checkIn(CheckInParams params) async {
     try {
-      int response = await _appointmentRemoteDataSource.checkIn(params);
+      String response = await _appointmentRemoteDataSource.checkIn(params);
       return right(response);
     } catch (e) {
       return left(ApiFailure(message: e.toString()));

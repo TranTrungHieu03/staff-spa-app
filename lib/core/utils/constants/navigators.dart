@@ -101,7 +101,7 @@ goScanner() async {
       navigatorKey.currentContext!,
       MaterialPageRoute(
           builder: (context) => BlocProvider(
-                create: (context) => serviceLocator<AppointmentBloc>(),
+                create: (context) => AppointmentBloc(getAppointment: serviceLocator(), checkIn: serviceLocator()),
                 child: const CheckInArrivedScreen(),
               )));
 }

@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:staff_app/core/common/screens/error_screen.dart';
 import 'package:staff_app/core/common/widgets/appbar.dart';
 import 'package:staff_app/core/common/widgets/show_snackbar.dart';
+import 'package:staff_app/core/logger/logger.dart';
 import 'package:staff_app/core/utils/constants/sizes.dart';
 import 'package:staff_app/features/chat/data/datasources/chat_remote_data_source.dart';
 import 'package:staff_app/features/chat/data/repositories/chat_repository_impl.dart';
 import 'package:staff_app/features/chat/domain/repositories/chat_repository.dart';
 import 'package:staff_app/features/chat/domain/usecases/connect_hub.dart';
 import 'package:staff_app/features/chat/domain/usecases/disconnect_hub.dart';
+import 'package:staff_app/features/chat/domain/usecases/get_channel.dart';
 import 'package:staff_app/features/chat/domain/usecases/get_list_message.dart';
 import 'package:staff_app/features/chat/domain/usecases/get_message.dart';
 import 'package:staff_app/features/chat/domain/usecases/send_message.dart';
+import 'package:staff_app/features/chat/presentation/bloc/channel/channel_bloc.dart';
 import 'package:staff_app/features/chat/presentation/bloc/chat/chat_bloc.dart';
 import 'package:staff_app/features/chat/presentation/bloc/list_message/list_message_bloc.dart';
 import 'package:staff_app/features/chat/presentation/widgets/chat_message_list.dart';
@@ -19,7 +21,11 @@ import 'package:staff_app/features/chat/presentation/widgets/chat_type_message.d
 import 'package:staff_app/init_dependencies.dart';
 
 class WrapperChatRoom extends StatelessWidget {
-  const WrapperChatRoom({super.key, required this.channelId, required this.userId});
+  const WrapperChatRoom({
+    super.key,
+    required this.channelId,
+    required this.userId,
+  });
 
   final String channelId;
   final String userId;
@@ -28,10 +34,7 @@ class WrapperChatRoom extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => ListMessageBloc(getListMessage: serviceLocator()),
-      child: ChatScreen(
-        channelId: channelId,
-        userId: userId,
-      ),
+      child: ChatScreen(channelId: channelId, userId: userId),
     );
   }
 }
@@ -152,59 +155,84 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: chatBloc,
-      child: BlocListener<ChatBloc, ChatState>(
-        listener: (context, state) {
-          if (state is ChatError) {
-            TSnackBar.errorSnackBar(context, message: state.error);
-          }
+    return BlocProvider(
+      create: (context) => ChannelBloc(getChannel: serviceLocator())..add(GetChannelEvent(GetChannelParams(widget.channelId))),
+      child: BlocProvider.value(
+        value: chatBloc,
+        child: BlocListener<ChatBloc, ChatState>(
+          listener: (context, state) {
+            if (state is ChatError) {
+              TSnackBar.errorSnackBar(context, message: state.error);
+              AppLogger.info(state.error);
+            }
 
-          if (state is ChatLoaded && state.messages.isNotEmpty) {
-            final latestMessage = state.messages.last;
-            context.read<ListMessageBloc>().add(ListMessageNewMessageEvent(latestMessage));
-            _scrollToBottom();
-          }
-        },
-        child: Scaffold(
-          appBar: const TAppbar(showBackArrow: true),
-          backgroundColor: Colors.white,
-          body: Column(
-            children: [
-              BlocBuilder<ListMessageBloc, ListMessageState>(
-                builder: (context, state) {
-                  if (state is ListMessageLoading) {
-                    return Center(child: CircularProgressIndicator());
-                  } else if (state is ListMessageError) {
-                    return Center(child: Text(state.message));
-                  } else if (state is ListMessageLoaded) {
-                    _scrollToBottom();
-                    final sortedMessages = state.messages..sort((a, b) => a.timestamp.compareTo(b.timestamp));
-                    return chatMessageWidget(chatListScrollController, sortedMessages, widget.userId);
-                  }
-                  return TErrorBody();
-                },
-              ),
-            ],
-          ),
-          bottomNavigationBar: Padding(
-            padding: EdgeInsets.only(
-              left: TSizes.sm,
-              right: TSizes.sm,
-              top: TSizes.sm,
-              bottom: MediaQuery.of(context).viewInsets.bottom + TSizes.sm,
-            ),
-            child: chatTypeMessageWidget(messageTextController, () {
-              chatBloc.add(ChatSendMessageEvent(
-                SendMessageParams(
-                  channelId: widget.channelId,
-                  senderId: widget.userId,
-                  content: messageTextController.text.trim(),
+            if (state is ChatLoaded && state.messages.isNotEmpty) {
+              final latestMessage = state.messages.last;
+              AppLogger.info("Forwarding message to ListMessageBloc: ${latestMessage.content}");
+              context.read<ListMessageBloc>().add(ListMessageNewMessageEvent(latestMessage));
+              _scrollToBottom();
+            }
+          },
+          child: BlocBuilder<ChannelBloc, ChannelState>(
+            builder: (context, channelState) {
+              if (channelState is ChannelLoaded) {
+                return Scaffold(
+                  appBar: TAppbar(
+                    showBackArrow: true,
+                    title: Text(channelState.channel.name),
+                  ),
+                  backgroundColor: Colors.white,
+                  body: Column(
+                    children: [
+                      BlocBuilder<ListMessageBloc, ListMessageState>(
+                        builder: (context, state) {
+                          if (state is ListMessageLoading) {
+                            return Center(child: CircularProgressIndicator());
+                          } else if (state is ListMessageLoaded) {
+                            _scrollToBottom();
+                            final sortedMessages = state.messages..sort((a, b) => a.timestamp.compareTo(b.timestamp));
+                            return Expanded(
+                                child: chatMessageWidget(
+                                    chatListScrollController, sortedMessages, widget.userId, channelState.channel.memberDetails!));
+                          }
+                          return const SizedBox();
+                        },
+                      ),
+                    ],
+                  ),
+                  bottomNavigationBar: Padding(
+                    padding: EdgeInsets.only(
+                      left: TSizes.sm,
+                      right: TSizes.sm,
+                      top: TSizes.sm,
+                      bottom: MediaQuery.of(context).viewInsets.bottom + TSizes.sm,
+                    ),
+                    child: chatTypeMessageWidget(messageTextController, () {
+                      chatBloc.add(ChatSendMessageEvent(
+                        SendMessageParams(
+                          channelId: widget.channelId,
+                          senderId: widget.userId,
+                          content: messageTextController.text.trim(),
+                        ),
+                      ));
+
+                      messageTextController.clear();
+                    }, () => _scrollToBottom()),
+                  ),
+                );
+              } else if (channelState is ChannelLoading) {
+                return Center(child: CircularProgressIndicator());
+              }
+              return Scaffold(
+                body: const Center(
+                  child: Text(
+                    'Không thể lấy thông tin từ hệ thống',
+                    style: TextStyle(fontSize: 16, color: Colors.red),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-              ));
-
-              messageTextController.clear();
-            }, () => _scrollToBottom()),
+              );
+            },
           ),
         ),
       ),
