@@ -45,4 +45,6 @@ class FacebookLoginEvent extends AuthEvent {}
 
 class GetUserInformationEvent extends AuthEvent {}
 
+class GetStaffInformationEvent extends AuthEvent {}
+
 class LogoutEvent extends AuthEvent {}

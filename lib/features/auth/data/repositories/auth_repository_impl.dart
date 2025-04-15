@@ -8,6 +8,7 @@ import 'package:staff_app/core/local_storage/local_storage.dart';
 import 'package:staff_app/core/network/connection_checker.dart';
 import 'package:staff_app/core/utils/service/auth_service.dart';
 import 'package:staff_app/features/auth/data/datasources/auth_remote_data_source.dart';
+import 'package:staff_app/features/auth/data/models/staff_model.dart';
 import 'package:staff_app/features/auth/data/models/user_model.dart';
 import 'package:staff_app/features/auth/domain/repository/auth_repository.dart';
 import 'package:staff_app/features/auth/domain/usecases/forget_password.dart';
@@ -130,6 +131,19 @@ class AuthRepositoryImpl implements AuthRepository {
       await LocalStorage.removeData(LocalStorageKey.userKey);
       await _authService.removeToken();
       return right("Logout success");
+    } on AppException catch (e) {
+      return left(ApiFailure(
+        message: e.toString(),
+      ));
+    }
+  }
+
+  @override
+  Future<Either<Failure, StaffModel>> getStaffInfo() async {
+    try {
+      StaffModel result = await _authRemoteDataSource.getStaffInfo();
+      await LocalStorage.saveData(LocalStorageKey.staffInfo, jsonEncode(result));
+      return right(result);
     } on AppException catch (e) {
       return left(ApiFailure(
         message: e.toString(),

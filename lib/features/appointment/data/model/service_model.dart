@@ -1,3 +1,4 @@
+import 'package:staff_app/core/logger/logger.dart';
 import 'package:staff_app/features/appointment/data/model/category_model.dart';
 import 'package:staff_app/features/appointment/domain/entities/service.dart';
 
@@ -18,6 +19,7 @@ class ServiceModel extends Service {
 
   // Factory method to parse JSON to Service object
   factory ServiceModel.fromJson(Map<String, dynamic> json) {
+    AppLogger.debug(json);
     return ServiceModel(
         serviceId: json['serviceId'] as int,
         serviceCategoryId: json['serviceCategoryId'] as int,

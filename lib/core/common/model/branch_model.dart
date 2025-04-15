@@ -1,4 +1,5 @@
 import 'package:staff_app/core/common/entities/branch.dart';
+import 'package:staff_app/core/logger/logger.dart';
 import 'package:staff_app/features/auth/data/models/user_model.dart';
 
 class BranchModel extends Branch {
@@ -17,6 +18,7 @@ class BranchModel extends Branch {
   });
 
   factory BranchModel.fromJson(Map<String, dynamic> json) {
+    AppLogger.debug(json);
     return BranchModel(
       branchId: json['branchId'],
       branchName: json['branchName'],

@@ -1,4 +1,5 @@
 import 'package:staff_app/core/common/entities/user.dart';
+import 'package:staff_app/core/logger/logger.dart';
 
 class UserModel extends User {
   const UserModel(
@@ -70,6 +71,7 @@ class UserModel extends User {
   }
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
+    AppLogger.debug(json);
     return UserModel(
       userId: json['userId'],
       userName: json['userName'],

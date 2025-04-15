@@ -1,116 +1,208 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:staff_app/core/helpers/helper_functions.dart';
 import 'package:staff_app/core/utils/constants/colors.dart';
+import 'package:staff_app/core/utils/constants/sizes.dart';
 
 class TSnackBar {
   static hideSnackBar(BuildContext context) => ScaffoldMessenger.of(context).hideCurrentSnackBar();
 
   static customToast(BuildContext context, {required String message}) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      elevation: 0,
-      duration: const Duration(seconds: 3),
-      backgroundColor: Colors.transparent,
-      content: Container(
-        padding: const EdgeInsets.all(12),
-        margin: const EdgeInsets.all(30),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
-            color: THelperFunctions.isDarkMode(context) ? TColors.darkerGrey.withOpacity(0.9) : TColors.grey.withOpacity(0.9)),
-        child: Center(
-          child: Text(
-            message,
-            style: Theme.of(context).textTheme.labelLarge,
-          ),
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            const Icon(Iconsax.tick_circle, color: Colors.white, size: 24),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                message,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                    ),
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            IconButton(
+              icon: const Icon(Iconsax.close_circle, color: Colors.white, size: 20),
+              onPressed: () {
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              },
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(),
+            ),
+          ],
         ),
+        backgroundColor: Colors.green[600],
+        behavior: SnackBarBehavior.floating,
+        margin: EdgeInsets.all(TSizes.md),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        duration: const Duration(seconds: 3),
+        dismissDirection: DismissDirection.horizontal,
       ),
-    ));
+    );
   }
 
   static successSnackBar(BuildContext context, {String title = "Success", required String message, int duration = 3}) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Row(
-        children: [
-          const Icon(Iconsax.check, color: TColors.primary),
-          const SizedBox(width: 8),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(title, style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.black)),
-              if (message.isNotEmpty)
-                ConstrainedBox(
-                  constraints: BoxConstraints(maxWidth: THelperFunctions.screenWidth(context) * 0.8),
-                  child: Text(
-                    message,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.grey[800]),
-                    maxLines: 3,
-                  ),
-                )
-            ],
-          ),
-        ],
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            const Icon(Iconsax.tick_circle, color: Colors.white, size: 24),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                message,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                    ),
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            IconButton(
+              icon: const Icon(Iconsax.close_circle, color: Colors.white, size: 20),
+              onPressed: () {
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              },
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(),
+            ),
+          ],
+        ),
+        backgroundColor: TColors.primary,
+        behavior: SnackBarBehavior.floating,
+        margin: EdgeInsets.all(TSizes.md),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        duration: const Duration(seconds: 3),
+        dismissDirection: DismissDirection.horizontal,
       ),
-      backgroundColor: Colors.green[200],
-      duration: Duration(seconds: duration),
-    ));
+    );
   }
 
   static warningSnackBar(BuildContext context, {String title = "Warning", required String message}) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Row(
-        children: [
-          const Icon(Iconsax.warning_2, color: Colors.orange),
-          const SizedBox(width: 8),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(title, style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.black)),
-              if (message.isNotEmpty)
-                ConstrainedBox(
-                  constraints: BoxConstraints(maxWidth: THelperFunctions.screenWidth(context) * 0.8),
-                  child: Text(
-                    message,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.grey[800]),
-                    maxLines: 8,
-                  ),
-                )
-            ],
-          ),
-        ],
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            const Icon(Iconsax.warning_2, color: Colors.white, size: 24),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                message,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                    ),
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            IconButton(
+              icon: const Icon(Iconsax.close_circle, color: Colors.white, size: 20),
+              onPressed: () {
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              },
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(),
+            ),
+          ],
+        ),
+        backgroundColor: Colors.orange[600],
+        behavior: SnackBarBehavior.floating,
+        margin: EdgeInsets.all(TSizes.md),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        duration: const Duration(seconds: 3),
+        dismissDirection: DismissDirection.horizontal,
       ),
-      backgroundColor: Colors.orange[100],
-      duration: const Duration(seconds: 3),
-    ));
+    );
   }
 
   static errorSnackBar(BuildContext context, {String title = "Error", required String message}) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Row(
-        children: [
-          const Icon(Iconsax.warning_2, color: Colors.red),
-          const SizedBox(width: 5),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(title, style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.black)),
-              if (message.isNotEmpty)
-                ConstrainedBox(
-                  constraints: BoxConstraints(maxWidth: THelperFunctions.screenWidth(context) * 0.8),
-                  child: Text(
-                    message,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.grey[800]),
-                    maxLines: 3,
-                  ),
-                )
-            ],
-          ),
-        ],
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            const Icon(Iconsax.close_circle, color: Colors.white, size: 24),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                message,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                    ),
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            IconButton(
+              icon: const Icon(Iconsax.close_circle, color: Colors.white, size: 20),
+              onPressed: () {
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              },
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(),
+            ),
+          ],
+        ),
+        backgroundColor: Colors.red[600],
+        behavior: SnackBarBehavior.floating,
+        margin: EdgeInsets.all(TSizes.md),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        duration: const Duration(seconds: 3),
+        dismissDirection: DismissDirection.horizontal,
       ),
-      backgroundColor: Colors.red[100],
-      duration: const Duration(seconds: 3),
-    ));
+    );
+  }
+
+  static infoSnackBar(BuildContext context, {required String message}) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            const Icon(Iconsax.information, color: Colors.white, size: 24),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                message,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                    ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            IconButton(
+              icon: const Icon(Iconsax.close_circle, color: Colors.white, size: 20),
+              onPressed: () {
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              },
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(),
+            ),
+          ],
+        ),
+        backgroundColor: Colors.blue[600],
+        behavior: SnackBarBehavior.floating,
+        margin: EdgeInsets.all(TSizes.md),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        duration: const Duration(seconds: 3),
+        dismissDirection: DismissDirection.horizontal,
+      ),
+    );
   }
 }

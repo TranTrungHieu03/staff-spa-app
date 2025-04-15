@@ -110,3 +110,16 @@ goChatRoom(String channelId, String userId) async {
   Navigator.push(
       navigatorKey.currentContext!, MaterialPageRoute(builder: (context) => WrapperChatRoom(channelId: channelId, userId: userId)));
 }
+
+goAppointmentDetail(String appointmentId) async {
+  Navigator.push(
+      navigatorKey.currentContext!, MaterialPageRoute(builder: (context) => AppointmentDetailScreen(appointmentId: (appointmentId))));
+}
+
+goRegisterShift() async {
+  Navigator.push(navigatorKey.currentContext!, MaterialPageRoute(builder: (context) => const WrapperRegisterScreen()));
+}
+
+goRegisterDayOff(DateTime selectedDate) async {
+  Navigator.push(navigatorKey.currentContext!, MaterialPageRoute(builder: (context) => WrapperRegisterDayOff(selectedDate: selectedDate)));
+}

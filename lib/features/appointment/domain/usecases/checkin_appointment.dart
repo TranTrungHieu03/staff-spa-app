@@ -22,8 +22,8 @@ class CheckInParams {
 
   Map<String, dynamic> toJson() {
     return {
-      'orderId': orderId,
-      'orderStatus': status,
+      'appointmentId': orderId,
+      'status': status,
     };
   }
 }

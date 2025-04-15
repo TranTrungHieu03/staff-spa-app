@@ -44,6 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
           listener: (context, state) {
             if (state is AuthSuccess) {
               context.read<AuthBloc>().add(GetUserInformationEvent());
+              context.read<AuthBloc>().add(GetStaffInformationEvent());
             } else if (state is AuthFailure) {
               TSnackBar.errorSnackBar(context, message: state.message);
             } else if (state is AuthLoaded) {

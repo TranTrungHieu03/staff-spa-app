@@ -1,6 +1,7 @@
 import 'package:staff_app/core/errors/exceptions.dart';
 import 'package:staff_app/core/network/network.dart';
 import 'package:staff_app/core/response/api_response.dart';
+import 'package:staff_app/features/auth/data/models/staff_model.dart';
 import 'package:staff_app/features/auth/data/models/user_model.dart';
 import 'package:staff_app/features/auth/domain/usecases/forget_password.dart';
 import 'package:staff_app/features/auth/domain/usecases/login.dart';
@@ -23,6 +24,8 @@ abstract class AuthRemoteDataSource {
   Future<String> resendOtp(ResendOtpParams params);
 
   Future<UserModel> getUserInfo();
+
+  Future<StaffModel> getStaffInfo();
 
   Future<void> logout();
 }
@@ -149,6 +152,22 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<void> logout() async {
     try {
       _apiServices.clearTokenCache();
+    } catch (e) {
+      throw AppException(e.toString());
+    }
+  }
+
+  @override
+  Future<StaffModel> getStaffInfo() async {
+    try {
+      final response = await _apiServices.getApi("/Staff/get-staff-info");
+
+      final apiResponse = ApiResponse.fromJson(response);
+      if (apiResponse.success) {
+        return StaffModel.fromJson(apiResponse.result!.data!);
+      } else {
+        throw AppException(apiResponse.result!.message!);
+      }
     } catch (e) {
       throw AppException(e.toString());
     }

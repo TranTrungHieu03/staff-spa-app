@@ -3,6 +3,7 @@ import 'package:meta/meta.dart';
 import 'package:staff_app/core/usecase/usecase.dart';
 import 'package:staff_app/features/auth/data/models/user_model.dart';
 import 'package:staff_app/features/auth/domain/usecases/forget_password.dart';
+import 'package:staff_app/features/auth/domain/usecases/get_staff_info.dart';
 import 'package:staff_app/features/auth/domain/usecases/get_user_info.dart';
 import 'package:staff_app/features/auth/domain/usecases/login.dart';
 import 'package:staff_app/features/auth/domain/usecases/logout.dart';
@@ -23,6 +24,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final ResendOtp _resendOtp;
   final GetUserInformation _getUserInformation;
   final Logout _logout;
+  final GetStaffInformation _getStaffInformation;
 
   AuthBloc({
     required Login login,
@@ -33,6 +35,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     required ResendOtp resendOtp,
     required GetUserInformation getUserInformation,
     required Logout logout,
+    required GetStaffInformation getStaffInformation,
   })  : _login = login,
         _signUp = signUp,
         _verifyOtp = verifyEvent,
@@ -41,6 +44,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         _resendOtp = resendOtp,
         _getUserInformation = getUserInformation,
         _logout = logout,
+        _getStaffInformation = getStaffInformation,
         super(AuthInitial()) {
     on<LoginEvent>(_onLoginEvent);
     on<SignUpEvent>(_onSignUpEvent);
@@ -51,6 +55,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<ResendOtpEvent>(_onResendOtpEvent);
     on<GetUserInformationEvent>(_onGetUserInformation);
     on<LogoutEvent>(_onLogout);
+    on<GetStaffInformationEvent>(_onGetUserStaffInformation);
   }
 
   Future<void> _onLoginEvent(LoginEvent event, Emitter<AuthState> emit) async {
@@ -113,6 +118,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(AuthLoading());
     final result = await _getUserInformation(NoParams());
     result.fold((failure) => emit(AuthFailure(failure.message)), (user) => emit(AuthLoaded(user)));
+  }
+
+  Future<void> _onGetUserStaffInformation(GetStaffInformationEvent event, Emitter<AuthState> emit) async {
+    emit(AuthLoading());
+    final result = await _getStaffInformation(NoParams());
+    result.fold((failure) => emit(AuthFailure(failure.message)), (user) {});
   }
 
   Future<void> _onLogout(LogoutEvent event, Emitter<AuthState> emit) async {

@@ -7,6 +7,7 @@ class Appointment extends Equatable {
   final int serviceId;
   final int branchId;
   final DateTime appointmentsTime;
+  final DateTime appointmentEndTime;
   final String status;
   final String notes;
   final String feedback;
@@ -27,6 +28,7 @@ class Appointment extends Equatable {
     required this.quantity,
     required this.unitPrice,
     required this.subTotal,
+    required this.appointmentEndTime,
   });
 
   @override

@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:staff_app/core/errors/failure.dart';
+import 'package:staff_app/features/auth/data/models/staff_model.dart';
 import 'package:staff_app/features/auth/data/models/user_model.dart';
 import 'package:staff_app/features/auth/domain/usecases/forget_password.dart';
 import 'package:staff_app/features/auth/domain/usecases/login.dart';
@@ -24,6 +25,8 @@ abstract class AuthRepository {
   Future<Either<Failure, String>> resendOtp(ResendOtpParams params);
 
   Future<Either<Failure, UserModel>> getUserInfo();
+
+  Future<Either<Failure, StaffModel>> getStaffInfo();
 
   Future<Either<Failure, String>> logout();
 }

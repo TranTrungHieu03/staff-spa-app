@@ -1,17 +1,19 @@
 import 'package:staff_app/core/common/model/branch_model.dart';
+import 'package:staff_app/core/logger/logger.dart';
 import 'package:staff_app/features/appointment/data/model/service_model.dart';
 import 'package:staff_app/features/appointment/domain/entities/appointment.dart';
 import 'package:staff_app/features/auth/data/models/user_model.dart';
 
 class AppointmentModel extends Appointment {
   final UserModel? customer;
-
+  final int? orderId;
   final UserModel? staff;
   final BranchModel? branch;
   final ServiceModel service;
 
   const AppointmentModel({
     required super.customerId,
+    required super.appointmentEndTime,
     required super.appointmentId,
     required super.staffId,
     required super.serviceId,
@@ -23,6 +25,7 @@ class AppointmentModel extends Appointment {
     this.customer,
     this.staff,
     this.branch,
+    this.orderId,
     required this.service,
     required super.quantity,
     required super.unitPrice,
@@ -30,6 +33,7 @@ class AppointmentModel extends Appointment {
   });
 
   factory AppointmentModel.fromJson(Map<String, dynamic> json) {
+    AppLogger.debug(json);
     return AppointmentModel(
       appointmentId: json['appointmentId'],
       customerId: json['customerId'],
@@ -47,6 +51,8 @@ class AppointmentModel extends Appointment {
       quantity: json['quantity'] ?? 0,
       unitPrice: (json['unitPrice'] as num?)?.toDouble() ?? 0.0,
       subTotal: (json['subTotal'] as num?)?.toDouble() ?? 0.0,
+      // orderId: json['orderId'] ?? 0,
+      appointmentEndTime: DateTime.parse(json['appointmentEndTime']),
     );
   }
 

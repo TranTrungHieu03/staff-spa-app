@@ -41,6 +41,7 @@ Future<void> _initAuth() async {
     ..registerFactory(() => ResendOtp(serviceLocator()))
     ..registerFactory(() => GetUserInformation(serviceLocator()))
     ..registerFactory(() => Logout(serviceLocator()))
+    ..registerFactory(() => GetStaffInformation(serviceLocator()))
 
     //bloc
     ..registerLazySingleton(() => AuthBloc(
@@ -52,6 +53,7 @@ Future<void> _initAuth() async {
           resendOtp: serviceLocator(),
           getUserInformation: serviceLocator(),
           logout: serviceLocator(),
+          getStaffInformation: serviceLocator(),
         ))
     //cubit
     ..registerLazySingleton<PasswordCubit>(() => PasswordCubit())
@@ -101,10 +103,23 @@ Future<void> _initAppointment() async {
   serviceLocator
     //data src
     ..registerFactory<AppointmentRemoteDataSource>(() => AppointmentRemoteDataSourceImpl(serviceLocator<NetworkApiService>()))
+    ..registerFactory<WorkingRemoteDataSource>(() => WorkingRemoteDataSourceImpl(serviceLocator<NetworkApiService>()))
     //repository
     ..registerFactory<AppointmentRepository>(() => AppointmentRepositoryImpl(serviceLocator<AppointmentRemoteDataSource>()))
-    ..registerLazySingleton(() => AppointmentBloc(getAppointment: serviceLocator(), checkIn: serviceLocator()))
+    ..registerFactory<WorkingRepository>(() => WorkingRepositoryImpl(serviceLocator<WorkingRemoteDataSource>()))
+
     //use cases
     ..registerFactory(() => GetAppointment(serviceLocator()))
-    ..registerFactory(() => CheckIn(serviceLocator()));
+    ..registerFactory(() => GetListAppointment(serviceLocator()))
+    ..registerFactory(() => CheckIn(serviceLocator()))
+    ..registerFactory(() => GetShifts(serviceLocator()))
+    ..registerFactory(() => RegisterWorkingTime(serviceLocator()))
+    ..registerFactory(() => RegisterDayOff(serviceLocator()))
+    ..registerFactory(() => GetWorkingTime(serviceLocator()))
+    ..registerLazySingleton(() => AppointmentBloc(getAppointment: serviceLocator(), checkIn: serviceLocator()))
+    ..registerLazySingleton(() => ShiftBloc(registerWorkingTime: serviceLocator(), registerDayOff: serviceLocator()))
+    ..registerLazySingleton(() => ListShiftBloc(getShifts: serviceLocator()))
+    ..registerLazySingleton(() => WorkingTimeBloc(getWorkingTime: serviceLocator()))
+    ..registerLazySingleton(() => ImageBloc())
+    ..registerLazySingleton(() => ListAppointmentBloc(getListAppointment: serviceLocator()));
 }

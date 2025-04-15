@@ -9,6 +9,7 @@ import 'package:staff_app/core/local_storage/local_storage.dart';
 import 'package:staff_app/core/provider/language_provider.dart';
 import 'package:staff_app/core/themes/theme.dart';
 import 'package:staff_app/core/utils/constants/exports_navigators.dart';
+import 'package:staff_app/features/appointment/presentation/bloc/image/image_bloc.dart';
 import 'package:staff_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:staff_app/features/auth/presentation/screens/on_boarding_screen.dart';
 import 'package:staff_app/features/chat/presentation/bloc/user_chat/user_chat_bloc.dart';
@@ -35,6 +36,7 @@ void main() async {
         BlocProvider(create: (_) => serviceLocator<AuthBloc>()),
         BlocProvider(create: (_) => serviceLocator<NavigationBloc>()),
         BlocProvider(create: (_) => serviceLocator<UserChatBloc>()),
+        BlocProvider(create: (_) => serviceLocator<ImageBloc>()),
       ],
       child: ChangeNotifierProvider<LanguageProvider>(
         create: (_) => languageProvider,

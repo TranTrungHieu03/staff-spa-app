@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:staff_app/features/appointment/data/model/appointment_model.dart';
 import 'package:staff_app/features/appointment/data/model/order_appointment_model.dart';
 import 'package:staff_app/features/appointment/domain/usecases/checkin_appointment.dart';
 import 'package:staff_app/features/appointment/domain/usecases/get_appointment.dart';

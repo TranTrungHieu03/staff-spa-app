@@ -10,7 +10,7 @@ final class AppointmentInitial extends AppointmentState {}
 final class AppointmentLoading extends AppointmentState {}
 
 final class AppointmentLoaded extends AppointmentState {
-  final OrderAppointmentModel appointment;
+  final AppointmentModel appointment;
 
   const AppointmentLoaded(this.appointment);
 }

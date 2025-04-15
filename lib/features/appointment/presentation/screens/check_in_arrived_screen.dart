@@ -10,6 +10,7 @@ import 'package:staff_app/core/common/widgets/show_snackbar.dart';
 import 'package:staff_app/core/helpers/helper_functions.dart';
 import 'package:staff_app/core/logger/logger.dart';
 import 'package:staff_app/core/utils/constants/colors.dart';
+import 'package:staff_app/core/utils/constants/exports_navigators.dart';
 import 'package:staff_app/core/utils/constants/sizes.dart';
 import 'package:staff_app/features/appointment/domain/usecases/checkin_appointment.dart';
 import 'package:staff_app/features/appointment/presentation/bloc/appointment/appointment_bloc.dart';
@@ -97,6 +98,7 @@ class _CheckInArrivedScreenState extends State<CheckInArrivedScreen> with Single
         }
         if (state is AppointmentIdLoaded) {
           TSnackBar.successSnackBar(context, message: state.id);
+          goAppointmentDetail(state.id);
         }
       },
       builder: (context, state) {
