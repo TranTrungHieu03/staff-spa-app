@@ -10,7 +10,7 @@ class TOutlinedButtonTheme {
     foregroundColor: Colors.black,
     padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
     side: const BorderSide(color: Colors.black),
-    textStyle: const TextStyle(fontSize: 16, color: Colors.black, fontWeight: FontWeight.w600),
+    textStyle: const TextStyle(fontFamily: "Gotham", fontSize: 16, color: Colors.black, fontWeight: FontWeight.w600),
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
   ));
   static OutlinedButtonThemeData darkTheme = OutlinedButtonThemeData(
@@ -20,7 +20,7 @@ class TOutlinedButtonTheme {
     foregroundColor: Colors.white,
     padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
     side: const BorderSide(color: Colors.white),
-    textStyle: const TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w600),
+    textStyle: const TextStyle(fontFamily: "Gotham", fontSize: 16, color: Colors.white, fontWeight: FontWeight.w600),
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
   ));
 }

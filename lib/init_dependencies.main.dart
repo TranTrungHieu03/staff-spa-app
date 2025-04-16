@@ -116,10 +116,15 @@ Future<void> _initAppointment() async {
     ..registerFactory(() => RegisterWorkingTime(serviceLocator()))
     ..registerFactory(() => RegisterDayOff(serviceLocator()))
     ..registerFactory(() => GetWorkingTime(serviceLocator()))
+    ..registerFactory(() => GetFeedback(serviceLocator()))
+    ..registerFactory(() => SubmitFeedback(serviceLocator()))
+    ..registerFactory(() => UpdateFeedback(serviceLocator()))
     ..registerLazySingleton(() => AppointmentBloc(getAppointment: serviceLocator(), checkIn: serviceLocator()))
     ..registerLazySingleton(() => ShiftBloc(registerWorkingTime: serviceLocator(), registerDayOff: serviceLocator()))
     ..registerLazySingleton(() => ListShiftBloc(getShifts: serviceLocator()))
     ..registerLazySingleton(() => WorkingTimeBloc(getWorkingTime: serviceLocator()))
+    ..registerLazySingleton(
+        () => AppointmentFeedbackBloc(getFeedback: serviceLocator(), submitFeedback: serviceLocator(), updateFeedback: serviceLocator()))
     ..registerLazySingleton(() => ImageBloc())
     ..registerLazySingleton(() => ListAppointmentBloc(getListAppointment: serviceLocator()));
 }

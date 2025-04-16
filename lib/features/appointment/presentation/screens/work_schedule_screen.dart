@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -147,6 +148,7 @@ class _WorkScheduleScreenState extends State<WorkScheduleScreen> {
                               child: Text(
                                 text,
                                 style: TextStyle(
+                                  fontFamily: GoogleFonts.montserrat().fontFamily,
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,
                                   color: day.weekday == DateTime.sunday ? Colors.red : Colors.black87,
@@ -196,7 +198,9 @@ class _WorkScheduleScreenState extends State<WorkScheduleScreen> {
                                       ? TColors.success.withOpacity(0.5)
                                       : appt.status.toLowerCase() == 'cancelled'
                                           ? TColors.error
-                                          : TColors.primaryBackground,
+                                          : appt.status.toLowerCase() == 'arrived'
+                                              ? Colors.tealAccent.withOpacity(0.5)
+                                              : TColors.primaryBackground,
                                   padding: EdgeInsets.all(TSizes.sm),
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,

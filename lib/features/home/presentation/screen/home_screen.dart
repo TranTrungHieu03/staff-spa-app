@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -69,7 +70,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   DateTime getStartOfWeek(DateTime date) {
-    return date.subtract(Duration(days: date.weekday - DateTime.monday));
+    DateTime monday = date.subtract(Duration(days: date.weekday - DateTime.monday));
+    return DateTime(monday.year, monday.month, monday.day, 0, 0, 0);
   }
 
   DateTime getEndOfWeek(DateTime date) {
@@ -101,10 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: BlocProvider(
         create: (_) => WorkingTimeBloc(getWorkingTime: serviceLocator())
           ..add(GetWorkingTimeEvent(
-            GetWorkingTimeParams(
-              year: _selectedDate.year,
-              month: _selectedDate.month,
-            ),
+            GetWorkingTimeParams(fromDate: getStartOfWeek(_selectedDate), toDate: getEndOfWeek(_selectedDate)),
           )),
         child: BlocConsumer<WorkingTimeBloc, WorkingTimeState>(
           listener: (context, state) {
@@ -159,10 +158,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                           if (!isSameDay(oldWeekStart, newWeekStart)) {
                             context.read<WorkingTimeBloc>().add(GetWorkingTimeEvent(
-                                  GetWorkingTimeParams(
-                                    year: _selectedDate.year,
-                                    month: _selectedDate.month,
-                                  ),
+                                  GetWorkingTimeParams(fromDate: getStartOfWeek(_selectedDate), toDate: getEndOfWeek(_selectedDate)),
                                 ));
                           }
                         },
@@ -177,10 +173,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                           if (!isSameDay(oldWeekStart, newWeekStart)) {
                             context.read<WorkingTimeBloc>().add(GetWorkingTimeEvent(
-                                  GetWorkingTimeParams(
-                                    year: _selectedDate.year,
-                                    month: _selectedDate.month,
-                                  ),
+                                  GetWorkingTimeParams(fromDate: getStartOfWeek(_selectedDate), toDate: getEndOfWeek(_selectedDate)),
                                 ));
                           }
                         },
@@ -202,6 +195,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: Text(
                                 text,
                                 style: TextStyle(
+                                  fontFamily: GoogleFonts.montserrat().fontFamily,
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,
                                   color: day.weekday == DateTime.sunday ? Colors.red : Colors.black87,

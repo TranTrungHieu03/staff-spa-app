@@ -4,9 +4,9 @@ part of 'image_bloc.dart';
 sealed class ImageEvent {}
 
 final class PickImageEvent extends ImageEvent {
-  final bool isCamera;
+  final bool isBefore;
 
-  PickImageEvent(this.isCamera);
+  PickImageEvent(this.isBefore);
 }
 
 final class ValidateImageEvent extends ImageEvent {

@@ -39,7 +39,7 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TAppbar(
+      appBar: const TAppbar(
         title: Text('Appointment Detail'),
         showBackArrow: true,
       ),
@@ -53,9 +53,27 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
             } else if (state is AppointmentLoaded) {
               final appointment = state.appointment;
               return Padding(
-                  padding: EdgeInsets.all(TSizes.sm),
+                  padding: const EdgeInsets.all(TSizes.sm),
                   child: SingleChildScrollView(
                       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    Row(
+                      children: [
+                        const Icon(
+                          Iconsax.calendar_1,
+                          color: TColors.primary,
+                        ),
+                        const SizedBox(
+                          width: TSizes.sm,
+                        ),
+                        Text(
+                          appointment.status,
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        )
+                      ],
+                    ),
+                    const SizedBox(
+                      height: TSizes.md,
+                    ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -122,18 +140,19 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
                       height: TSizes.md,
                     ),
                     TRoundedContainer(
+                      padding: const EdgeInsets.all(TSizes.sm),
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Customer information',
-                              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                  )),
+                          Text('Customer information', style: Theme.of(context).textTheme.bodyLarge!.copyWith()),
+                          const SizedBox(
+                            height: TSizes.sm,
+                          ),
                           Row(
                             children: [
                               const Icon(
                                 Iconsax.user,
-                                color: TColors.primary,
+                                size: 17,
                               ),
                               const SizedBox(
                                 width: TSizes.sm,
@@ -148,7 +167,7 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
                             children: [
                               const Icon(
                                 Iconsax.call,
-                                color: TColors.primary,
+                                size: 17,
                               ),
                               const SizedBox(
                                 width: TSizes.sm,
@@ -166,39 +185,46 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
                       height: TSizes.md,
                     ),
                     TRoundedContainer(
+                      padding: const EdgeInsets.all(TSizes.sm),
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Service information',
-                              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                  )),
+                          Text('Service information', style: Theme.of(context).textTheme.bodyLarge!.copyWith()),
+                          const SizedBox(
+                            height: TSizes.sm,
+                          ),
+                          Text(
+                            appointment.service.name ?? "",
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
                           Row(
                             children: [
-                              const Icon(
-                                Iconsax.wallet_1,
-                                color: TColors.primary,
-                              ),
+                              Text('Duration:'),
                               const SizedBox(
                                 width: TSizes.sm,
                               ),
                               Text(
-                                appointment.service?.name ?? "",
+                                '${appointment.service.duration} minutes' ?? "",
                                 style: Theme.of(context).textTheme.bodyMedium,
                               ),
                             ],
                           ),
+                          Text(
+                            appointment.service.description ?? "",
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                          const SizedBox(
+                            height: TSizes.sm,
+                          ),
                           Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Icon(
-                                Iconsax.filter_edit,
-                                color: TColors.primary,
-                              ),
+                              Text('Steps: '),
                               const SizedBox(
                                 width: TSizes.sm,
                               ),
                               Text(
-                                appointment.service.description ?? "",
+                                '${appointment.service.steps} ' ?? "",
                                 style: Theme.of(context).textTheme.bodyMedium,
                               ),
                             ],
@@ -209,20 +235,44 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
                     const SizedBox(
                       height: TSizes.md,
                     ),
-                    ElevatedButton(onPressed: () {}, child: Text('Completed confirm')),
+                    TRoundedContainer(
+                      padding: const EdgeInsets.all(TSizes.sm),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Tracking information', style: Theme.of(context).textTheme.bodyLarge!.copyWith()),
+                          const Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Before image:'),
+                              SizedBox(
+                                width: TSizes.sm,
+                              ),
+                              Text('After image')
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              TextButton(
+                                  onPressed: () {
+                                    context.read<ImageBloc>().add(PickImageEvent(true));
+                                  },
+                                  child: Text('Take')),
+                              TextButton(
+                                  onPressed: () {
+                                    context.read<ImageBloc>().add(PickImageEvent(true));
+                                  },
+                                  child: Text('Take')),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
                     const SizedBox(
                       height: TSizes.md,
                     ),
-                    Text('Tracking information',
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            )),
-                    TextButton(
-                        onPressed: () {
-                          context.read<ImageBloc>().add(PickImageEvent(true));
-                        },
-                        child: Text('Tracking image')),
+                    SizedBox(width: double.infinity, child: ElevatedButton(onPressed: () {}, child: Text('Completed confirm'))),
                   ])));
             } else if (state is AppointmentError) {
               return Center(child: Text(state.message));

@@ -57,7 +57,7 @@ class WorkingRemoteDataSourceImpl implements WorkingRemoteDataSource {
   @override
   Future<List<StaffShiftModel>> getWorkingTime(GetWorkingTimeParams params) async {
     try {
-      final response = await _apiServices.getApi("/Staff/slot-working?year=${params.year}&month=${params.month}");
+      final response = await _apiServices.getApi("/Staff/slot-working?fromDate=${params.fromDate}&toDate=${params.toDate}");
 
       final apiResponse = ApiResponse.fromJson(response);
       if (apiResponse.success) {

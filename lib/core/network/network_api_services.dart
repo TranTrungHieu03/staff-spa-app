@@ -40,6 +40,9 @@ class NetworkApiService implements BaseApiServices {
           if (options.data is! FormData) {
             options.headers['Content-Type'] = 'application/json';
           }
+          if (options.data is FormData) {
+            _cachedToken = await _refreshToken();
+          }
           if (kDebugMode) {
             AppLogger.info("==> Request Interceptor Triggered \nToken: $_cachedToken\nURL: ${options.uri}\nHeaders: ${options.headers}");
           }

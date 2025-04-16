@@ -97,8 +97,8 @@ class _CheckInArrivedScreenState extends State<CheckInArrivedScreen> with Single
           isScanned = false;
         }
         if (state is AppointmentIdLoaded) {
-          TSnackBar.successSnackBar(context, message: state.id);
-          goAppointmentDetail(state.id);
+          TSnackBar.successSnackBar(context, message: 'Check-in successful');
+          goAppointmentDetail(state.id.toString());
         }
       },
       builder: (context, state) {

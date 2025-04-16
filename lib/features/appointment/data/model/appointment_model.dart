@@ -6,7 +6,8 @@ import 'package:staff_app/features/auth/data/models/user_model.dart';
 
 class AppointmentModel extends Appointment {
   final UserModel? customer;
-  final int? orderId;
+
+  // final int? orderId;
   final UserModel? staff;
   final BranchModel? branch;
   final ServiceModel service;
@@ -25,7 +26,6 @@ class AppointmentModel extends Appointment {
     this.customer,
     this.staff,
     this.branch,
-    this.orderId,
     required this.service,
     required super.quantity,
     required super.unitPrice,
@@ -52,7 +52,7 @@ class AppointmentModel extends Appointment {
       unitPrice: (json['unitPrice'] as num?)?.toDouble() ?? 0.0,
       subTotal: (json['subTotal'] as num?)?.toDouble() ?? 0.0,
       // orderId: json['orderId'] ?? 0,
-      appointmentEndTime: DateTime.parse(json['appointmentEndTime']),
+      appointmentEndTime: DateTime.parse(json['appointmentEndTime'] ?? '${DateTime.now()}'),
     );
   }
 

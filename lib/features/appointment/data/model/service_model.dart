@@ -7,7 +7,7 @@ class ServiceModel extends Service {
 
   const ServiceModel(
       {required super.serviceId,
-      required super.serviceCategoryId,
+      super.serviceCategoryId,
       required super.name,
       required super.description,
       required super.price,
@@ -22,7 +22,7 @@ class ServiceModel extends Service {
     AppLogger.debug(json);
     return ServiceModel(
         serviceId: json['serviceId'] as int,
-        serviceCategoryId: json['serviceCategoryId'] as int,
+        serviceCategoryId: json['serviceCategoryId'] ?? 0,
         name: json['name'] as String,
         description: json['description'] as String,
         price: (json['price'] as num).toDouble(),

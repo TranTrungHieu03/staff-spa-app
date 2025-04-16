@@ -5,18 +5,18 @@ import 'package:staff_app/features/working_time/data/model/staff_shift_model.dar
 import 'package:staff_app/features/working_time/domain/repository/working_repository.dart';
 
 class GetWorkingTimeParams {
-  final int month;
-  final int year;
+  final DateTime fromDate;
+  final DateTime toDate;
 
   const GetWorkingTimeParams({
-    required this.month,
-    required this.year,
+    required this.fromDate,
+    required this.toDate,
   });
 
   Map<String, dynamic> toJson() {
     return {
-      "month": month,
-      "year": year,
+      "fromDate": fromDate.toIso8601String(),
+      "toDate": toDate.toIso8601String(),
     };
   }
 }

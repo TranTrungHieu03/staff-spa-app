@@ -13,6 +13,7 @@ class TTextButtonTheme {
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
       // Padding
       textStyle: const TextStyle(
+        fontFamily: "Gotham",
         fontSize: 16,
         fontWeight: FontWeight.w600,
       ),
@@ -32,6 +33,7 @@ class TTextButtonTheme {
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
       // Padding
       textStyle: const TextStyle(
+        fontFamily: "Gotham",
         fontSize: 16,
         fontWeight: FontWeight.w500,
       ),

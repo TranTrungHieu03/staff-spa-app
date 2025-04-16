@@ -16,7 +16,7 @@ final class AppointmentLoaded extends AppointmentState {
 }
 
 final class AppointmentIdLoaded extends AppointmentState {
-  final String id;
+  final int id;
 
   const AppointmentIdLoaded(this.id);
 }

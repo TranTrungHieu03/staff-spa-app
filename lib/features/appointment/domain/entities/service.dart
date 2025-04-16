@@ -9,7 +9,7 @@ class Service extends Equatable {
   final List<String> images;
   final String status;
   final String steps;
-  final int serviceCategoryId;
+  final int? serviceCategoryId;
 
   const Service({
     required this.serviceId,
@@ -25,5 +25,5 @@ class Service extends Equatable {
 
   @override
   // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [serviceId, serviceCategoryId, name, description, price, duration, status, images, steps];
 }

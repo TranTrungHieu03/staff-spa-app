@@ -42,13 +42,14 @@ class ImageBloc extends Bloc<ImageEvent, ImageState> {
       }
 
       final ImagePicker picker = ImagePicker();
-      final XFile? image = await picker.pickImage(
-        source: event.isCamera ? ImageSource.camera : ImageSource.gallery,
-      );
+      final XFile? image = await picker.pickImage(source: ImageSource.camera);
 
       if (image != null) {
         final File file = File(image.path);
-        emit(ImagePicked(file));
+        emit(ImagePicked(
+          image: file,
+          isBefore: event.isBefore,
+        ));
       } else {
         emit(ImageInvalid("No image selected."));
       }

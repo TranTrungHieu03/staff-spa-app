@@ -17,7 +17,7 @@ class TSettingsMenuTile extends StatelessWidget {
         size: 24,
         color: TColors.black,
       ),
-      title: Text(title, style: Theme.of(context).textTheme.titleSmall),
+      title: Text(title, style: Theme.of(context).textTheme.titleMedium),
       trailing: trailing,
       onTap: onTap,
     );

@@ -9,8 +9,9 @@ final class ImageLoading extends ImageState {}
 
 final class ImagePicked extends ImageState {
   final File image;
+  final bool isBefore;
 
-  ImagePicked(this.image);
+  ImagePicked({required this.image, this.isBefore = false});
 }
 
 final class ImageValid extends ImageState {

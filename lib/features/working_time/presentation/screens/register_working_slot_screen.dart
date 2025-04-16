@@ -2,6 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:staff_app/core/common/widgets/loader.dart';
 import 'package:staff_app/core/common/widgets/show_snackbar.dart';
 import 'package:staff_app/core/local_storage/local_storage.dart';
@@ -43,15 +46,24 @@ class _RegisterWorkingSlotScreenState extends State<RegisterWorkingSlotScreen> {
   DateTime _selectedDay = DateTime.now();
   StaffModel? staff;
   Map<DateTime, Set<int>> selectedShifts = {};
+  String _lgCode = 'vi';
 
   @override
   void initState() {
     super.initState();
     _loadStaffInfo();
+    _loadLanguage();
     final now = DateTime.now();
     final nextMonth = DateTime(now.year, now.month + 1);
     _focusedDay = nextMonth;
     _selectedDay = nextMonth;
+  }
+
+  Future<void> _loadLanguage() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _lgCode = prefs.getString('language_code') ?? "vi";
+    });
   }
 
   void _loadStaffInfo() async {
@@ -151,11 +163,25 @@ class _RegisterWorkingSlotScreenState extends State<RegisterWorkingSlotScreen> {
                               alignment: Alignment.center,
                               child: Text(
                                 '${day.day}',
-                                style: const TextStyle(color: Colors.black),
+                                style: TextStyle(color: Colors.black),
                               ),
                             );
                           }
                           return null;
+                        },
+                        dowBuilder: (context, day) {
+                          final text = DateFormat.E(_lgCode).format(day);
+                          return Center(
+                            child: Text(
+                              text,
+                              style: TextStyle(
+                                fontFamily: GoogleFonts.montserrat().fontFamily,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: day.weekday == DateTime.sunday ? Colors.red : Colors.black87,
+                              ),
+                            ),
+                          );
                         },
                         markerBuilder: (context, date, _) {
                           final key = DateTime(date.year, date.month, date.day);
@@ -170,7 +196,10 @@ class _RegisterWorkingSlotScreenState extends State<RegisterWorkingSlotScreen> {
                                 ),
                                 child: Text(
                                   "${selectedShifts[key]!.length}",
-                                  style: const TextStyle(color: Colors.white, fontSize: 10),
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 10,
+                                  ),
                                 ),
                               ),
                             );

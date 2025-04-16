@@ -9,10 +9,10 @@ class TTextFormField {
       prefixIconColor: TColors.grey,
       suffixIconColor: TColors.grey,
       // constraints: const BoxConstraints.expand(height: 14, inputFieldHeight),
-      labelStyle: const TextStyle().copyWith(fontSize: 14, color: TColors.black),
-      hintStyle: const TextStyle().copyWith(fontSize: 14, color: TColors.black),
-      errorStyle: const TextStyle().copyWith(fontStyle: FontStyle.normal),
-      floatingLabelStyle: const TextStyle().copyWith(color: TColors.black.withOpacity(0.8)),
+      labelStyle: const TextStyle(fontFamily: "Gotham").copyWith(fontSize: 14, color: TColors.black),
+      hintStyle: const TextStyle(fontFamily: "Gotham").copyWith(fontSize: 14, color: TColors.black),
+      errorStyle: const TextStyle(fontFamily: "Gotham").copyWith(fontStyle: FontStyle.normal),
+      floatingLabelStyle: const TextStyle(fontFamily: "Gotham").copyWith(color: TColors.black.withOpacity(0.8)),
       border: const OutlineInputBorder()
           .copyWith(borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(width: 1, color: TColors.grey)),
       enabledBorder: const OutlineInputBorder()
@@ -29,18 +29,18 @@ class TTextFormField {
       prefixIconColor: TColors.grey,
       suffixIconColor: TColors.grey,
       // constraints: const BoxConstraints.expand(height: 14, inputFieldHeight),
-      labelStyle: const TextStyle().copyWith(
+      labelStyle: const TextStyle(fontFamily: "Gotham").copyWith(
         fontSize: 14,
         color: TColors.black,
       ),
-      hintStyle: const TextStyle().copyWith(
+      hintStyle: const TextStyle(fontFamily: "Gotham").copyWith(
         fontSize: 14,
         color: TColors.black,
       ),
-      errorStyle: const TextStyle().copyWith(
+      errorStyle: const TextStyle(fontFamily: "Gotham").copyWith(
         fontStyle: FontStyle.normal,
       ),
-      floatingLabelStyle: const TextStyle().copyWith(color: TColors.black.withOpacity(0.8)),
+      floatingLabelStyle: const TextStyle(fontFamily: "Gotham").copyWith(color: TColors.black.withOpacity(0.8)),
       border: const OutlineInputBorder()
           .copyWith(borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(width: 1, color: TColors.grey)),
       enabledBorder: const OutlineInputBorder()

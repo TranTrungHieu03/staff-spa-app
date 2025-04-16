@@ -6,7 +6,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 import 'package:staff_app/core/common/widgets/appbar.dart';
-import 'package:staff_app/core/common/widgets/section_heading.dart';
 import 'package:staff_app/core/local_storage/local_storage.dart';
 import 'package:staff_app/core/provider/language_provider.dart';
 import 'package:staff_app/core/utils/constants/colors.dart';
@@ -81,19 +80,12 @@ class _SettingScreenState extends State<SettingScreen> {
               padding: const EdgeInsets.all(TSizes.defaultSpace / 2),
               child: Column(
                 children: [
-                  TSectionHeading(
-                    title: AppLocalizations.of(context)!.account_settings,
-                    showActionButton: false,
-                  ),
-                  const SizedBox(
-                    height: TSizes.spacebtwItems,
-                  ),
-                  TSettingsMenuTile(
-                    icon: Iconsax.award,
-                    title: AppLocalizations.of(context)!.rewards,
-                    onTap: () {},
-                    trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-                  ),
+                  // TSettingsMenuTile(
+                  //   icon: Iconsax.award,
+                  //   title: AppLocalizations.of(context)!.rewards,
+                  //   onTap: () {},
+                  //   trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                  // ),
                   TSettingsMenuTile(
                     icon: Icons.language_outlined,
                     title: AppLocalizations.of(context)!.language,
@@ -105,7 +97,7 @@ class _SettingScreenState extends State<SettingScreen> {
                       children: [
                         Text(
                           languageProvider.getLanguageName(languageProvider.locale.languageCode),
-                          style: Theme.of(context).textTheme.bodySmall,
+                          style: Theme.of(context).textTheme.bodyMedium,
                         ),
                         const SizedBox(
                           width: TSizes.sm,
@@ -122,7 +114,7 @@ class _SettingScreenState extends State<SettingScreen> {
                   ),
                   TSettingsMenuTile(
                     icon: Iconsax.bookmark,
-                    title: AppLocalizations.of(context)!.appointment,
+                    title: 'Goi lieu trinh',
                     onTap: () {},
                     trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                   ),
@@ -145,7 +137,7 @@ class _SettingScreenState extends State<SettingScreen> {
                           size: 24,
                           color: TColors.black,
                         ),
-                        title: Text(AppLocalizations.of(context)!.logout, style: Theme.of(context).textTheme.titleSmall),
+                        title: Text(AppLocalizations.of(context)!.logout, style: Theme.of(context).textTheme.titleMedium),
                         trailing: null,
                         onTap: () {
                           context.read<AuthBloc>().add(LogoutEvent());
